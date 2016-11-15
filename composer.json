@@ -1,7 +1,17 @@
 {
+    "config": {
+        "vendor-dir": "./src/vendor"
+    },
     "require": {
         "slim/slim": "^3.5",
         "gabordemooij/redbean": "^4.3",
-        "twbs/bootstrap": "^3.3"
+        "twbs/bootstrap": "^3.3",
+        "firebase/php-jwt": "~4.0",
+        "components/jquery": "^3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Controllers\\": "src/Controllers"
+        }
     }
 }

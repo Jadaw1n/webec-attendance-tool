@@ -7,54 +7,49 @@ require '../vendor/autoload.php';
 // php hack for Slim Route matching
 $_SERVER['SCRIPT_NAME'] = 'index.php';
 
-// database
-use \RedBeanPHP\R;
-require './database.php';
-
 // app configuration
 $configuration = [
     'settings' => [
         'displayErrorDetails' => true,
     ],
+    'authentication' => [
+        'key' => 'TODO this key should be in a config file',
+        'validity' => 3600
+    ],
+    'database' => 'sqlite:./../database.sqlite'
 ];
 $c = new \Slim\Container($configuration);
 $app = new \Slim\App($c);
 
-// routes
+require './database.php';
+
+// index route
 $app->get('/', function(Request $request, Response $response) {
     $response->getBody()->write(file_get_contents('main.html'));
     return $response;
 });
 
-$app->get('/bootstrap/{type}/{file}', function(Request $request, Response $response, $args) {
-    // get bootstrap files from vendor dir
-    $response->getBody()->write(file_get_contents('../vendor/twbs/bootstrap/dist/' . $args['type'] . "/" . $args['file']));
+// bootstrap css/js/fonts
+$app->get('/vendor/{lib}/{file}', function(Request $request, Response $response, $args) {
+    $libs = [
+        'bootstrap' => 'twbs/bootstrap/dist',
+        'jquery' => 'components/jquery'
+    ];
+    $lib = $libs[$args['lib']];
+    $file = $args['file'];
+    if($lib == null || strpos($file, '..') !== false) {
+        return $response->withStatus(404);
+    }
+    $response->getBody()->write(file_get_contents('../vendor/' . $lib . "/" . $args['file']));
     return $response;
 });
 
-
-$app->get('/counter', function(Request $request, Response $response) {
-
-    $counter = R::findOrCreate('counter');
-    $response->getBody()->write("Visitor number: " . $counter->number);
-    $counter->number++;
-    R::store($counter);
-    return $response;
-});
-
-$app->get('/hello/{name}', function (Request $request, Response $response) {
-    $name = $request->getAttribute('name');
-    $response->getBody()->write("Hello, $name");
-
-    return $response;
-});
-
-// Lars Spielwiese...
-$app->get('/lars/{msg}', function (Request $request, Response $response) {
-    $msg = $request->getAttribute('msg');
-    $response->getBody()->write("Check check, $msg");
-
-    return $response;
+// API routes
+$app->group('/api', function() {
+    $this->group('/auth', function() {
+        $this->post('/login', '\Controllers\AuthController:login');
+        $this->post('/register', '\Controllers\AuthController:register');
+    });
 });
 
 $app->run();
