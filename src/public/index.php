@@ -48,4 +48,13 @@ $app->get('/hello/{name}', function (Request $request, Response $response) {
 
     return $response;
 });
+
+// Lars Spielwiese...
+$app->get('/lars/{msg}', function (Request $request, Response $response) {
+    $msg = $request->getAttribute('msg');
+    $response->getBody()->write("Check check, $msg");
+
+    return $response;
+});
+
 $app->run();
