@@ -1,6 +1,8 @@
 <?php
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use \Firebase\JWT\JWT;
+use \RedBeanPHP\R;
 
 require '../vendor/autoload.php';
 
@@ -8,48 +10,42 @@ require '../vendor/autoload.php';
 $_SERVER['SCRIPT_NAME'] = 'index.php';
 
 // app configuration
-$configuration = [
-    'settings' => [
-        'displayErrorDetails' => true,
-    ],
-    'authentication' => [
-        'key' => 'TODO this key should be in a config file',
-        'validity' => 3600
-    ],
-    'database' => 'sqlite:./../database.sqlite'
-];
+$configuration = require('./../config.php');
 $c = new \Slim\Container($configuration);
 $app = new \Slim\App($c);
 
-require './database.php';
+require './../database.php';
 
 // index route
 $app->get('/', function(Request $request, Response $response) {
-    $response->getBody()->write(file_get_contents('main.html'));
-    return $response;
+  return $response->write(file_get_contents('main.html'));;
 });
 
-// bootstrap css/js/fonts
-$app->get('/vendor/{lib}/{file}', function(Request $request, Response $response, $args) {
-    $libs = [
-        'bootstrap' => 'twbs/bootstrap/dist',
-        'jquery' => 'components/jquery'
-    ];
-    $lib = $libs[$args['lib']];
-    $file = $args['file'];
-    if($lib == null || strpos($file, '..') !== false) {
-        return $response->withStatus(404);
-    }
-    $response->getBody()->write(file_get_contents('../vendor/' . $lib . "/" . $args['file']));
-    return $response;
-});
+// library css/js/fonts
+$app->get('/vendor/{lib}/{file:.*}.{ext}', require('./../vendorloader.php'));
 
 // API routes
 $app->group('/api', function() {
-    $this->group('/auth', function() {
-        $this->post('/login', '\Controllers\AuthController:login');
-        $this->post('/register', '\Controllers\AuthController:register');
-    });
+  $this->group('/auth', function() {
+    $this->post('/login', '\Controllers\Auth:login');
+    $this->post('/register', '\Controllers\Auth:register');
+  });
+  $this->group('/organisation', function() {
+    $this->get('/mine', '\Controllers\Organisation:myOrganisations');
+
+    $this->group('/{org_id}', function() {
+      $this->get('[/]', '\Controllers\Organisation:getData'); // get basic org data, members, event dates
+      $this->post('[/]', '\Controllers\Organisation:updateData'); // update basic org data
+
+      // $this->post('/updateEvents', '\Controllers\Organisation:updateEvents'); // update event list?
+      // $this->post('/updateMembers', '\Controllers\Organisation:updateMembers'); // update member list?
+
+      $this->group('/event/{event_id}', function() {
+        $this->get('/eventDetail', '\Controllers\Event:getData'); // get full event data
+        $this->post('/attendance', '\Controllers\Event:updateAttendance');
+      })->add(require('../Middleware/EventCheck.php'));
+    })->add(require('../Middleware/OrganisationCheck.php'));
+  })->add(require('../Middleware/LoginCheck.php'));
 });
 
 $app->run();

@@ -2,3 +2,4 @@
 .vscode
 *.sqlite
 /nbproject/
+/src/config.php
