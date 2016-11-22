@@ -2,5 +2,5 @@
 
 use \RedBeanPHP\R;
 
-R::setup('sqlite:./../database.sqlite');
+R::setup($configuration['database']);
 // R::freeze(true);
