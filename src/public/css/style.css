@@ -5,6 +5,10 @@ body, h1, h2, h3, p {
   font-family: Tahoma, Verdana, Arial;
 }
 
+hr {
+  margin: 30px 0;
+}
+
 .logo {
   margin: 0;
   padding: 0 0 0 15px;
@@ -13,6 +17,19 @@ body, h1, h2, h3, p {
 
 nav {
   padding: 10px;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover, .btn-primary, .btn-primary:hover, .btn-primary:focus, .btn:active, .btn-primary:active {
+  background-color: red;
+  border: 0;
+}
+
+.nav-pills > li + li {
+  margin-left: 5px;
+}
+
+a:focus, a:hover, a {
+  color: black;
 }
 
 .marketing {
@@ -29,16 +46,17 @@ nav {
   color: gray;
 }
 
-.line {
-  border-bottom: 1px solid #e3e3e3;
+.welcome, .box {
+  padding: 60px 0;
 }
 
-.welcome, .box {
-  padding: 60pt 0;
+.module {
+  margin-top: 100px;
+  margin-bottom: 100px;
 }
 
 footer {
-  background-color: #9d9d9d;
+  background-color: #BFBFBF;
   padding: 15px;
   color: white;
 }
@@ -66,4 +84,8 @@ h1, h2, h3 {
 
 .box span {
   font-size: 60px;
+}
+
+.underline {
+  text-decoration: underline;
 }
