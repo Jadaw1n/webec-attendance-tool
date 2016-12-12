@@ -55,10 +55,10 @@ a:focus, a:hover, a {
   margin-bottom: 100px;
 }
 
-footer {
-  background-color: #BFBFBF;
+.title, footer {
+  background-color: #DEDEDE;
   padding: 15px;
-  color: white;
+  color: black;
 }
 
 .center {
@@ -74,7 +74,7 @@ footer ul {
 }
 
 /* font */
-h1, h2, h3 {
+h1, h2 {
   padding-bottom: 10px;
 }
 
@@ -88,4 +88,26 @@ h1, h2, h3 {
 
 .underline {
   text-decoration: underline;
+}
+
+/* EVENT */
+.eventbox {
+  border: 2px solid red;
+  width: 200px;
+}
+
+.eventbox-head {
+  background-color: red;
+}
+
+.eventbox-head, .eventbox-description {
+  padding: 4px;
+}
+
+.eventbox-datetime, .eventbox-title {
+  color: white;
+}
+
+span .eventbox-time {
+  float: right;
 }
