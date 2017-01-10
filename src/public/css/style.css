@@ -97,7 +97,7 @@ h1, h2, h3 {
   text-decoration: underline;
 }
 
-/* EVENT */
+/* events */
 .panel-default > .panel-heading {
   color: white;
   background-color: red;
@@ -106,6 +106,65 @@ h1, h2, h3 {
 .panel-default > .panel-heading > a {
   color: white;
   text-decoration: underline;
+}
+
+/* event */
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 76px;
+  height: 28px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 24px;
+  width: 36px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: red;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #dedede;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(36px);
+  -ms-transform: translateX(36px);
+  transform: translateX(36px);
+}
+
+.table > tbody > tr > td.no-padding {
+  padding: 4px; !important;
+}
+
+.table > tbody > tr > td > label {
+  margin-bottom: -4px; !important;
 }
 
 /* forms */
