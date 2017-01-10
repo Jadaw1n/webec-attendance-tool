@@ -1,0 +1,19 @@
+<div>
+    <input type='text' id='calendar-from'>
+</div>
+<!-- Datepicker -->
+<link   type="text/css" rel="stylesheet" href="lib/jquery-ui-1.12.1/jquery-ui.min.css"/>        
+<!-- <script type='text/javascript' src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+<script type='text/javascript' src="lib/jquery-ui-1.12.1/jquery-ui.js"></script>
+<script>
+    $( function() {
+    $( "#calendar-from" ).datepicker({
+            showWeek: true,
+            firstDay: 1,
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: 'dd.mm.yy'
+        }).datepicker("setDate", new Date('January 1, ' + new Date().getFullYear()));
+    });    
+    //$('#calendar-from').val('test');
+</script>

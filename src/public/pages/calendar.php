@@ -13,7 +13,7 @@
         <link type="text/css" rel="stylesheet" href="lib/jquery-ui-1.12.1/jquery-ui.min.css"/>
         <script src="lib/jquery-ui-1.12.1/jquery-ui.js"></script>
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
-        <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js">
     </head>
     <body>
         <main>
