@@ -171,3 +171,12 @@ input:checked + .slider:before {
 form errors {
   color: red;
 }
+
+#notifications {
+    position: fixed;
+    width: 90%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 1000;
+    bottom: 10%;
+}
