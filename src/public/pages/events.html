@@ -5,25 +5,108 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-xs-12 col-md-8">
-        <div class="row-fluid">
-            <div class="col-xs-12">
-                <h2>Heute</h2>
-                <div class="eventbox">
-                    <div class="eventbox-head">
-                        <div class="eventbox-datetime">
-                            <span class="eventbox-date">01.01.2017</span> <span class="eventbox-time">20:00</span>
-                        </div>
-                        <div class="eventbox-title"><h3>Hauptprobe</h3></div>
+<div class="row content">
+    <div class="col-xs-12 col-md-6 col-lg-8">
+        <h2>N&auml;chste Events</h2>
+        <h3>Heute</h3>
+        <div class="row">
+            <div class="col-xs-12 col-md-6 col-lg-4">
+                <!-- uschliessendes div gehört zu diesem Termin dazu! -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">20:00 - <a href="#">Hauptprobe</a></div>
+                    <div class="panel-body">
+                        <p>An diesem Termin findet die Hauptprobe statt. Idealerweise sind an diesem Datum alle anwesend.</p>
                     </div>
-                    <div class="eventbox-description"><p>An diesem Termin findet die Hauptprobe statt. Bitte alle anwesend sein.</p></div>
                 </div>
             </div>
+
+            <div class="col-xs-12 col-md-6 col-lg-4">
+                <!-- uschliessendes div gehört zu diesem Termin dazu! -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">22:00 - <a href="#">Aufr&auml;umen</a></div>
+                    <div class="panel-body">
+                        <p>An diesem Termin findet die Hauptprobe statt. Idealerweise sind an diesem Datum alle anwesend.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- hier der nächste Termin für heute -->
+        </div>
+
+        <!-- anderer Tag -->
+        <h3>31.03.2017</h3>
+        <div class="row">
+            <div class="col-xs-12 col-md-6 col-lg-4">
+                <!-- uschliessendes div gehört zu diesem Termin dazu! -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">20:00 - <a href="#">Aufführung</a></div>
+                    <div class="panel-body">
+                        <p>Am 31. findet das Konzert statt. Anwesenheit ist Pflicht!</p>
+                    </div>
+                </div>
+            </div>
+            <!-- hier der nächste Termin für 31.03.2017 -->
+        </div>
+
+
+        <!-- nochmals anderer Tag -->
+        <h3>31.12.2017</h3>
+        <div class="row">
+            <div class="col-xs-12 col-md-6 col-lg-4">
+                <!-- uschliessendes div gehört zu diesem Termin dazu! -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">14:00 - <a href="#">Silvesterfest</a></div>
+                    <div class="panel-body">
+                        <p>Am 31. findet das Silvesterfest statt.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-6 col-lg-4">
+                <!-- uschliessendes div gehört zu diesem Termin dazu! -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">18:00 - <a href="#">Abendessen</a></div>
+                    <div class="panel-body">
+                        <p>Gemeinsames Abendessen.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-6 col-lg-4">
+                <!-- uschliessendes div gehört zu diesem Termin dazu! -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">23:00 - <a href="#">Silvesterfeier</a></div>
+                    <div class="panel-body">
+                        <p>Alkohol bitte selbst mitbringen.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- hier der nächste Termin für 31.03.2017 -->
         </div>
     </div>
-    <div class="col-xs-12 col-md-4">
-        <h1>Events</h1>
-        <p>Terminübersicht</p>
+    <div class="col-xs-12 col-md-6 col-lg-4">
+        <h2>Neuer Event</h2>
+        <form role="form" id="event">
+            <div class="form-group" id="frmGrpDate">
+                <label for="date" class="control-label">Datum</label>
+                <input type="text" id="date" class="form-control" placeholder="Datum">
+            </div>
+            <div class="form-group" id="frmGrpTimeStart">
+                <label for="timeStart" class="control-label">Startzeit:</label>
+                <input type="text" id="timeStart" class="form-control" placeholder="08:00">
+            </div>
+            <div class="form-group" id="frmGrpTimeEnd">
+                <label for="timeEnd" class="control-label">Endzeit:</label>
+                <input type="text" id="timeEnd" class="form-control" placeholder="20:00">
+            </div>
+            <div class="form-group" id="frmGrpTitle">
+                <label for="title" class="control-label">Titel:</label>
+                <input type="text" id="title" class="form-control" placeholder="Titel">
+            </div>
+            <div class="form-group" id="frmGrpDescription">
+                <label for="description" class="control-label">Beschreibung:</label>
+                <textarea id="description" class="form-control" rows="4"></textarea>
+            </div>
+            <button class="btn btn-md btn-primary btn-block" type="submit">Termin hinzufügen</button>
+        </form>
     </div>
 </div>
