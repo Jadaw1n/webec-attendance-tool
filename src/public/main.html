@@ -19,15 +19,22 @@
       </div>
     </div>
 
-    <section id="home" src="pages/home.html" data-name="Home" default navi></section>
-    <section id="register" src="pages/register.html" data-name="Registrieren" navi></section>
-    <section id="login" src="pages/login.html" data-name="Login" navi></section>
-    <section id="events" src="pages/events.html" data-name="Events" navi></section>
-    <section id="event" src="pages/event.html" data-name="Event" navi></section>
-    <section id="members" src="pages/members.html" data-name="Members" navi></section>
-    <section id="test" src="pages/test.html" data-name="Test" navi></section>
-    <!--<section id="calendar" src="pages/calendar.php" data-name="Calendar" navi></section>-->
-    
+    <div id="notifications"></div>
+
+    <div id="naviloggedIn">
+      <section id="home" src="pages/home.html" data-name="Home" default></section>
+      <section id="events" src="pages/events.html" data-name="Events"></section>
+      <section id="members" src="pages/members.html" data-name="Members"></section>
+      <section id="calendar" src="pages/calendar.php" data-name="Calendar"></section>
+      <section id="logout" src="pages/logout.html" data-name="Logout"></section>
+    </div>
+
+    <div id="naviloggedOut">
+      <section id="home" src="pages/home.html" data-name="Home" default></section>
+      <section id="register" src="pages/register.html" data-name="Registrieren"></section>
+      <section id="login" src="pages/login.html" data-name="Login"></section>
+    </div>
+
     <footer class="row">
       <div class="col-xs-12 col-md-4">
         <h3>Autoren</h3>

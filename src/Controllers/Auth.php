@@ -32,7 +32,7 @@ class Auth {
 
       $jwt = JWT::encode($token, $this->ci->get('settings')['authentication']['key']);
 
-      return $response->withJson(['status' => 'success', 'token' => $jwt]);
+      return $response->withJson(['status' => 'success', 'token' => $jwt, 'data' => $user]);
     }
   }
 
@@ -44,7 +44,7 @@ class Auth {
     $organisation = $json['organisation'];
 
     if(!preg_match('/^[A-Za-z0-9äöü]{5,}$/', $name)) {
-        return $response->withJson(['status' => 'error', 'message' => 'Username must be at least 5 characters, and may only contain letters and numbers']);
+        return $response->withJson(['status' => 'error', 'message' => 'Username must be at least 5 characters, and may only contain letters and numbers'.strlen($name)]);
     }
 
     if(strlen($password) < 8) {
