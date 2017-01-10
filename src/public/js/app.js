@@ -23,6 +23,8 @@ const User = (() => {
       localStorage.removeItem("data");
     },
     isLoggedIn: () => token !== null,
+    getData: () => data,
+    getToken: () => token,
   };
 })();
 
