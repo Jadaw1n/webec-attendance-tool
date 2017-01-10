@@ -17,7 +17,7 @@ class Auth {
   public function login(Request $request, Response $response) {
     $json = $request->getParsedBody();
 
-    $user = R::findOne('user', 'name = ? and password = ?', [$json['name'], sha1($json['password'])]);
+    $user = R::findOne('user', 'email = ? and password = ?', [$json['email'], sha1($json['password'])]);
 
     if($user == null) {
       return $response->withJson(['status' => 'login_failed']);
@@ -32,41 +32,41 @@ class Auth {
 
       $jwt = JWT::encode($token, $this->ci->get('settings')['authentication']['key']);
 
-      return $response->withJson(['status' => 'success', 'token' => $jwt, 'data' => $user]);
+      return $response->withJson(['status' => 'success', 'token' => $jwt, 'data' => ['email' => $user->email, 'id' => $user->id]]);
     }
   }
 
   public function register(Request $request, Response $response) {
     $json = $request->getParsedBody();
 
-    $name = $json['name'];
+    $email = $json['email'];
     $password = $json['password'];
     $organisation = $json['organisation'];
 
-    if(!preg_match('/^[A-Za-z0-9äöü]{5,}$/', $name)) {
-        return $response->withJson(['status' => 'error', 'message' => 'Username must be at least 5 characters, and may only contain letters and numbers'.strlen($name)]);
+    if(!preg_match('/^.*@.*$/', $email)) {
+        return $response->withJson(['status' => 'error', 'message' => 'E-Mail Adresse nicht im korrekten Format.']);
     }
 
     if(strlen($password) < 8) {
-        return $response->withJson(['status' => 'error', 'message' => 'Password must be at least 8 characters.']);
+        return $response->withJson(['status' => 'error', 'message' => 'Das Passwort muss mindestens 8 Zeichen lang sein.']);
     }
 
     if(strlen($organisation) < 3) {
-        return $response->withJson(['status' => 'error', 'message' => 'Organisation name must have at least 3 characters.']);
+        return $response->withJson(['status' => 'error', 'message' => 'Der Name der Organisaion muss mindestens 3 Zeichen lang sein.']);
     }
 
-    $user = R::findOne('user', 'name = ?', [$name]);
+    $user = R::findOne('user', 'email = ?', [$name]);
     if($user != null) {
-        return $response->withJson(['status' => 'error', 'message' => 'Username already taken.']);
+        return $response->withJson(['status' => 'error', 'message' => 'E-Mail Adresse existiert bereits']);
     }
 
     $org = R::findOne('organisation', 'name = ?', [$organisation]);
     if($org != null) {
-        return $response->withJson(['status' => 'error', 'message' => 'Organisation name already taken.']);
+        return $response->withJson(['status' => 'error', 'message' => 'Name der Organisation bereits vergeben.']);
     }
 
     $user = R::dispense('user');
-    $user->name = $name;
+    $user->email = $email;
     $user->password = sha1($password);
 
     R::store($user);

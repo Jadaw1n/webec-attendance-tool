@@ -5,6 +5,7 @@
         const data = getFormData("loginForm");
 
         api("auth/login", data).then(msg => {
+
             if (msg.status === "success") {
                 User.login(msg.token, msg.data);
 
@@ -13,7 +14,7 @@
                 window.location.hash = "home";
             } else {
                 // show errors
-                $("#loginForm errors").text(msg.message);
+                $("#loginForm errors").text("Login fehlgeschlagen!");
             }
         });
 
@@ -33,9 +34,10 @@
         <h2>Login</h2>
         <hr>
         <form role="form" id="loginForm">
+            <errors />
             <div class="form-group">
-                <label for="name" class="control-label">Benutzername</label>
-                <input type="text" id="name" name="name" class="form-control" placeholder="Benutzername">
+                <label for="email" class="control-label">E-Mail Adresse</label>
+                <input type="text" id="email" name="email" class="form-control" placeholder="E-Mail Adresse">
             </div>
             <div class="form-group">
                 <label for="password" class="control-label">Passwort</label>

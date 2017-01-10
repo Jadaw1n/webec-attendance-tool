@@ -73,6 +73,7 @@ window.app.page("events", () => {
   log("event controller");
 });
 
+// API calls
 function api(url, data = null) {
   return $.ajax({
     url: "/api/" + url,
