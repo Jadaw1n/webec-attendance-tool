@@ -1,29 +1,17 @@
-<script type='text/javascript' src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
-<main>
-    <section id='properties'>
-        <fieldset>
-            <legend>Kalender Einstellungen</legend>
-            <label for='calendar-from'>Von</label>
-            <input type='text' id='calendar-from'>
-            <label for='calendar-to'>Bis</label>
-            <input type='text' id='calendar-to'>
-            <label for='calendar-to'>Max. Anzahl Events</label>
-            <input type='number' min='0' max='2500' value='250' id='calendar-max' name='maxResults'>
-        </fieldset>
-    </section>
-    <section id='calendars'></section>
-    <nav id='actions'>
-        <fieldset id='calendar-actions'>
-            <legend>Kalender Aktionen</legend>
-            <!--<span onclick="changeCalendar()">Kalender wechseln</span> | -->
-            <span onclick='listCalendars()'>Kalender laden</span> | 
-            <span onclick='listEvents()'>Events laden</span>
-        </fieldset>
-    </nav>
-    <section id='events'></section>
+<script src="../js/calendar.js"></script>
+<header class="row title">
+    <div class="col-xs-12">
+        <h1>Google Calendar</h1>
+        <p>Hier können Sie die Events von Ihrem Google Calendar nach Wahl importieren.</p>
+    </div>
+</header>
+<main class="row content">
+    <div class="col-xs-12 col-md-6 col-lg-8">
+        <section id='calendars'></section>
+        <section id='calendar-properties'>
+            <a href='#' id='authorize-button' class="btn btn-md btn-primary">Login</a>
+        </section>
+        <nav id='actions'></nav>
+        <section id='events'></section>
+    </div>
 </main>
-
-<!-- Datepicker -->
-<link   type="text/css" rel="stylesheet" href="lib/jquery-ui-1.12.1/jquery-ui.min.css"/>        
-<script type='text/javascript' src="lib/jquery-ui-1.12.1/jquery-ui.js"></script>
-<script type='text/javascript' src="js/calendar.js"></script>
