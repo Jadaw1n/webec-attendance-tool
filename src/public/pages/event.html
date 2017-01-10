@@ -11,10 +11,11 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Vorname</th>
-                    <th>Nachname</th>
-                    <th>Anwesend</th>
+                    <th width="10%">#</th>
+                    <th width="35%">Vorname</th>
+                    <th width="35%">Nachname</th>
+                    <th width="10%">Grund</th>
+                    <th class="right" width="10%">Anwesend</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,8 +24,23 @@
                     <td>Markus</td>
                     <td>Plüss</td>
                     <td class="no-padding">
+                        <div class="btn-group">
+                            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Grund <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Ferien</a></li>
+                                <li><a href="#">Krank</a></li>
+                                <li><a href="#">Militär</a></li>
+                                <li><a href="#">Sonstiges</a></li>
+                                <li class="divider" role="separator"></li>
+                                <li><a href="#">unentschuldigt</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td class="no-padding right">
                         <label class="switch">
-                            <input type="checkbox" checked>
+                            <input type="checkbox">
                             <div class="slider"></div>
                         </label>
                     </td>
@@ -34,6 +50,21 @@
                     <td>Pierro</td>
                     <td>Steinger</td>
                     <td class="no-padding">
+                        <div class="btn-group">
+                            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Grund <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Ferien</a></li>
+                                <li><a href="#">Krank</a></li>
+                                <li><a href="#">Militär</a></li>
+                                <li><a href="#">Sonstiges</a></li>
+                                <li class="divider" role="separator"></li>
+                                <li><a href="#">unentschuldigt</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td class="no-padding right">
                         <label class="switch">
                             <input type="checkbox" checked>
                             <div class="slider"></div>
@@ -44,7 +75,22 @@
                     <td>3</td>
                     <td>Lars</td>
                     <td>Kessler</td>
-                    <td class="no-padding"  >
+                    <td class="no-padding">
+                        <div class="btn-group">
+                            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Grund <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Ferien</a></li>
+                                <li><a href="#">Krank</a></li>
+                                <li><a href="#">Militär</a></li>
+                                <li><a href="#">Sonstiges</a></li>
+                                <li class="divider" role="separator"></li>
+                                <li><a href="#">unentschuldigt</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td class="no-padding right">
                         <label class="switch">
                             <input type="checkbox" checked>
                             <div class="slider"></div>

@@ -167,6 +167,10 @@ input:checked + .slider:before {
   margin-bottom: -4px; !important;
 }
 
+.right {
+    text-align: right;
+}
+
 /* forms */
 form errors {
   color: red;
