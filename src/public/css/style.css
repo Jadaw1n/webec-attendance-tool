@@ -68,6 +68,10 @@ a:focus, a:hover, a {
   text-align: center;
 }
 
+footer {
+  padding: 15px;
+}
+
 footer ul li {
   list-style-type: none;
 }
@@ -102,4 +106,9 @@ h1, h2, h3 {
 .panel-default > .panel-heading > a {
   color: white;
   text-decoration: underline;
+}
+
+/* forms */
+form errors {
+  color: red;
 }
