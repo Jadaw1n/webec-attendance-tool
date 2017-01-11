@@ -88,15 +88,18 @@ function getCalendarProperties() {
         fromLabel.setAttribute('for', 'calendar-from');
         fromLabel.innerHTML = 'Von';       
         var from = document.createElement('INPUT');
+        from.setAttribute('id', 'calendar-from');
         from.setAttribute('type', 'text');
-        from.setAttribute('id', 'calendar-from');        
+        from.setAttribute('class', 'form-control');
         // to
         var toLabel = document.createElement('LABEL');
         toLabel.setAttribute('for', 'calendar-to');
-        toLabel.innerHTML = 'Bis';       
+        toLabel.setAttribute('class', 'control-label');
+        toLabel.innerHTML = 'Bis';
         var to = document.createElement('INPUT');
-        to.setAttribute('type', 'text');
         to.setAttribute('id', 'calendar-to');
+        to.setAttribute('type', 'text');
+        to.setAttribute('class', 'form-control');
         // maxResults
         var maxResLabel = document.createElement('LABEL');
         maxResLabel.setAttribute('for', 'calendar-max');
@@ -107,21 +110,39 @@ function getCalendarProperties() {
         maxRes.setAttribute('max', '2500');
         maxRes.setAttribute('value', '25');
         maxRes.setAttribute('id', 'calendar-max');
+        maxRes.setAttribute('class', 'form-control');
         maxRes.setAttribute('name', 'maxResults');
         // loadEvents
         var loadEvents = document.createElement('SPAN');
         loadEvents.setAttribute('onclick', 'listEvents()');
         loadEvents.setAttribute('class', 'btn btn-md btn-primary');
         loadEvents.innerHTML = 'Events laden';
+
+        // form groups
+        var fromGrp = document.createElement('DIV');
+        fromGrp.setAttribute('class', 'form-group col-xs-12 col-md-6 col-lg-4');
+        fromGrp.appendChild(fromLabel);
+        fromGrp.appendChild(from);
+
+        var toGrp = document.createElement('DIV');
+        toGrp.setAttribute('class', 'form-group col-xs-12 col-md-6 col-lg-4');
+        toGrp.appendChild(toLabel);
+        toGrp.appendChild(to);
+
+        var maxGrp = document.createElement('DIV');
+        maxGrp.setAttribute('class', 'form-group col-xs-12 col-md-6 col-lg-4');
+        maxGrp.appendChild(maxResLabel);
+        maxGrp.appendChild(maxRes);
+
+        var row = document.createElement('DIV');
+        row.setAttribute('class', 'row');
+        row.appendChild(fromGrp);
+        row.appendChild(toGrp);
+        row.appendChild(maxGrp);
         
         calendarProperties = document.createElement('FIELDSET');
         calendarProperties.appendChild(lg);
-        calendarProperties.appendChild(fromLabel);
-        calendarProperties.appendChild(from);
-        calendarProperties.appendChild(toLabel);
-        calendarProperties.appendChild(to);
-        calendarProperties.appendChild(maxResLabel);
-        calendarProperties.appendChild(maxRes);
+        calendarProperties.appendChild(row);
         calendarProperties.appendChild(loadEvents);
     }
     return calendarProperties;
@@ -192,6 +213,8 @@ function listEvent(calendar_id) {
         var eventsList = resp.items;
 
         if (eventsList.length > 0) {
+            var tbody = document.createElement('tbody');
+
             // Loops through the event list.
             for (i = 0; i < eventsList.length; i++) {
                 var event = eventsList[i];
@@ -199,13 +222,15 @@ function listEvent(calendar_id) {
                 if (!when) {
                     when = event.start.date;
                 }
+
                 // Checked element
                 var checked = document.createElement('INPUT');
                 checked.setAttribute('type', 'checkbox');
                 checked.setAttribute('name', 'active');
                 checked.setAttribute('value', event.id);
-                checked.setAttribute('id', event.id);                
+                checked.setAttribute('id', event.id);
                 event.checked = checked;
+
                 // calendar_id
                 event.calendar_id = calendar_id;
                 // Table row
@@ -236,27 +261,29 @@ function listEvent(calendar_id) {
                 tr.appendChild(tdStart);
                 tr.appendChild(tdEnd);
                 tr.appendChild(tdLocation);
-                
-                eventTable.appendChild(tr);
+
+                tbody.appendChild(tr)
 
                 events.push(event);
             }
         }
+
+        eventTable.appendChild(tbody)
     });
 }
 
 function getEventFieldSet() {
     // Table
     var thChecked = document.createElement('TH');
-    thChecked.innerHTML = 'Import';
+    thChecked.innerHTML = 'Importieren';
     var thCalendar = document.createElement('TH');
-    thCalendar.innerHTML = 'Kalender';
+    thCalendar.innerHTML = 'Kalenderherkunft';
     var thSummary = document.createElement('TH');
-    thSummary.innerHTML = 'EventTitel';
+    thSummary.innerHTML = 'Beschreibung';
     var thStart = document.createElement('TH');
-    thStart.innerHTML = 'EventStart';
+    thStart.innerHTML = 'Startzeit';
     var thEnd = document.createElement('TH');
-    thEnd.innerHTML = 'EventEnde';
+    thEnd.innerHTML = 'Endzeit';
     var thLocation = document.createElement('TH');
     thLocation.innerHTML = 'Ort';
     var tr = document.createElement('TR');
@@ -266,12 +293,15 @@ function getEventFieldSet() {
     tr.appendChild(thStart);
     tr.appendChild(thEnd);
     tr.appendChild(thLocation);
+    var thead = document.createElement('THEAD');
+    thead.appendChild(tr);
     eventTable = document.createElement('TABLE');
+    eventTable.setAttribute('class', 'table table-striped');
     eventTable.setAttribute('id', 'calendar-events');
-    eventTable.appendChild(tr);
+    eventTable.appendChild(thead);
     // Fieldset
     var eventLegend = document.createElement('LEGEND');
-    eventLegend.innerHTML = 'Kalender Events';
+    eventLegend.innerHTML = 'Events';
     var eventSet = document.createElement('FIELDSET');
     eventSet.setAttribute('id', 'events-set');
     eventSet.appendChild(eventLegend);

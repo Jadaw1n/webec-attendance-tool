@@ -118,7 +118,7 @@ h1, h2, h3 {
 }
 
 /* Hide default HTML checkbox */
-.switch input {display:none;}
+.switch input { display:none; }
 
 /* The slider */
 .slider {
@@ -183,4 +183,9 @@ form errors {
     transform: translate(-50%, 0);
     z-index: 1000;
     bottom: 10%;
+}
+
+/* calendar */
+fieldset > span, fieldset > input {
+  margin: 0 5px 0 0 !important;
 }
