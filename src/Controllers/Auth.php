@@ -55,7 +55,7 @@ class Auth {
         return $response->withJson(['status' => 'error', 'message' => 'Der Name der Organisaion muss mindestens 3 Zeichen lang sein.']);
     }
 
-    $user = R::findOne('user', 'email = ?', [$name]);
+    $user = R::findOne('user', 'email = ?', [$email]);
     if($user != null) {
         return $response->withJson(['status' => 'error', 'message' => 'E-Mail Adresse existiert bereits']);
     }
