@@ -3,10 +3,8 @@ var calendars = [];
 var events = [];
 var eventActions;
 var eventFieldSet;
-var eventFrame; // events as calendar iframe
-var eventTable; // events as list/table
-var isEventTable;
-var eventPost; // event create board
+var eventTable;
+var eventImport;
 
 var clientId = '176534308723-g6v8gkp1fu7j12i44f1cvvb4svg4sl4i.apps.googleusercontent.com';
 var scopes = ["https://www.googleapis.com/auth/calendar"];
@@ -149,9 +147,9 @@ function appendDatepicker(id, type) {
 function listEvents() {
     // Inits the event container.
     events = [];
-    document.getElementById('events').innerHTML = null;
+    document.getElementById('calendar-events').innerHTML = null;
     eventFieldSet = getEventFieldSet();
-    document.getElementById('events').appendChild(eventFieldSet);
+    document.getElementById('calendar-events').appendChild(eventFieldSet);
     
     for (i = 0; i < calendars.length; ++i) {
         if (calendars[i].checkbox.checked) {
@@ -159,7 +157,7 @@ function listEvents() {
         }
     }
     
-    //getShowCalendar();
+    appendEventImport();
 }
 
 function listEvent(calendar_id) {
@@ -229,12 +227,6 @@ function listEvent(calendar_id) {
                 tdEnd.innerHTML = getFormatedDateStr(event.end.dateTime);
                 var tdLocation = document.createElement('TD');
                 tdLocation.innerHTML = event.location;
-                var tdStatus = document.createElement('TD');
-                tdStatus.innerHTML = event.status;
-                var tdCreated = document.createElement('TD');
-                tdCreated.innerHTML = getFormatedDateStr(event.created);
-                var tdCreator = document.createElement('TD');
-                tdCreator.innerHTML = event.creator.email;
                 
                 var tr = document.createElement('TR');
                 tr.setAttribute('id', event.id);
@@ -244,9 +236,6 @@ function listEvent(calendar_id) {
                 tr.appendChild(tdStart);
                 tr.appendChild(tdEnd);
                 tr.appendChild(tdLocation);
-                tr.appendChild(tdStatus);
-                tr.appendChild(tdCreated);
-                tr.appendChild(tdCreator);
                 
                 eventTable.appendChild(tr);
 
@@ -259,7 +248,7 @@ function listEvent(calendar_id) {
 function getEventFieldSet() {
     // Table
     var thChecked = document.createElement('TH');
-    thChecked.innerHTML = 'Checked';
+    thChecked.innerHTML = 'Import';
     var thCalendar = document.createElement('TH');
     thCalendar.innerHTML = 'Kalender';
     var thSummary = document.createElement('TH');
@@ -270,12 +259,6 @@ function getEventFieldSet() {
     thEnd.innerHTML = 'EventEnde';
     var thLocation = document.createElement('TH');
     thLocation.innerHTML = 'Ort';
-    var thStatus = document.createElement('TH');
-    thStatus.innerHTML = 'Status';
-    var thCreated = document.createElement('TH');
-    thCreated.innerHTML = 'Erstellt';
-    var thCreator = document.createElement('TH');
-    thCreator.innerHTML = 'Ersteller';
     var tr = document.createElement('TR');
     tr.appendChild(thChecked);
     tr.appendChild(thCalendar);
@@ -283,9 +266,6 @@ function getEventFieldSet() {
     tr.appendChild(thStart);
     tr.appendChild(thEnd);
     tr.appendChild(thLocation);
-    tr.appendChild(thStatus);
-    tr.appendChild(thCreated);
-    tr.appendChild(thCreator);
     eventTable = document.createElement('TABLE');
     eventTable.setAttribute('id', 'calendar-events');
     eventTable.appendChild(tr);
@@ -305,4 +285,19 @@ function getFormatedDateStr(dateToFormat) {
             '.' + dateToFormat.substring(5,7) + 
             '.' + dateToFormat.substring(0,4) + 
             ' ' + dateToFormat.substring(11,19);
+}
+
+function appendEventImport() {
+    if (eventImport === undefined) {
+        eventImport = document.createElement('SPAN');
+        eventImport.setAttribute('onclick', 'importEvents()');
+        eventImport.setAttribute('class', 'btn btn-md btn-primary');
+        eventImport.innerHTML = 'Events importieren';
+        
+        calendarProperties.appendChild(eventImport);
+    }
+}
+
+function importEvents() {
+    console.info('importEvents...');
 }

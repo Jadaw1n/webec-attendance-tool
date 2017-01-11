@@ -73,6 +73,10 @@ window.app.page("events", () => {
   log("event controller");
 });
 
+window.app.page("calendar", () => {
+  log("calendar controller: called");
+});
+
 // API calls
 function api(url, data = null) {
   return $.ajax({
