@@ -37,7 +37,6 @@ function listCalendars() {
     var request = gapi.client.calendar.calendarList.list();
     request.execute(function(resp){
         var calendarsList = resp.items;
-        console.log(calendarsList);
         var fs = document.createElement('FIELDSET');
         document.getElementById('calendars').innerHTML = null;
         document.getElementById('calendars').appendChild(fs);
@@ -185,9 +184,6 @@ function listEvents() {
 }
 
 function listEvent(calendar_id) {
-
-    console.info('listEvent: ' + calendar_id);
-
     var calendar_from = $('#calendar-from').datepicker('getDate');
     calendar_from = calendar_from.getFullYear() + '-' +
                     ('0' + (calendar_from.getMonth() + 1)).slice(-2) + '-' +
