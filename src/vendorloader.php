@@ -5,7 +5,8 @@ use \Psr\Http\Message\ResponseInterface as Response;
 return function(Request $request, Response $response, $args) {
   $libs = [
     'bootstrap' => 'twbs/bootstrap/dist',
-    'jquery' => 'components/jquery'
+    'jquery' => 'components/jquery',
+    'jqueryui' => 'components/jqueryui',
   ];
   $file = $args['file'];
   $ext = $args['ext'];

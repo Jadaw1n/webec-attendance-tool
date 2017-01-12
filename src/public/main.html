@@ -4,6 +4,7 @@
 <head>
   <title>Attendance Tool</title>
   <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/vendor/jqueryui/themes/base/jquery-ui.min.css" />
   <!--<link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap-theme.min.css" />-->
   <link rel="stylesheet" href="/css/style.css" />
 </head>
@@ -45,22 +46,6 @@
         </ul>
       </div>
       <div class="col-xs-12 col-md-8">
-        <h3>Kontakt</h3>
-        <form role="form" id="contact">
-          <div class="form-group" id="frmGrpName">
-            <label for="name" class="control-label">Name</label>
-            <input type="text" id="name" class="form-control" placeholder="Ihr Name">
-          </div>
-          <div class="form-group" id="frmGrpMail">
-            <label for="mail" class="control-label">Mail</label>
-            <input type="text" id="mail" class="form-control" placeholder="Ihre Mail-Adresse">
-          </div>
-          <div class="form-group" id="frmGrpText">
-            <label for="text" class="control-label">Nachricht</label>
-            <textarea id="text" class="form-control" placeholder="Nachricht" rows="4"></textarea>
-          </div>
-          <button class="btn btn-md btn-primary" type="submit">senden</button>
-        </form>
 
       </div>
     </footer>
@@ -68,13 +53,12 @@
   </div>
 
   <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/jqueryui/jquery-ui.min.js"></script>
   <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
   <script src="/js/spapp.js"></script>
   <script src="/js/app.js"></script>
+  <!-- google api for calendar import -->
   <script src="https://apis.google.com/js/client.js"></script>
-  <!-- Datepicker -->
-  <link   type="text/css" rel="stylesheet" href="lib/jquery-ui-1.12.1/jquery-ui.min.css"/>        
-  <script type='text/javascript' src="lib/jquery-ui-1.12.1/jquery-ui.js"></script>
 </body>
 
 </html>
