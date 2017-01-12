@@ -37,35 +37,38 @@ function listCalendars() {
     var request = gapi.client.calendar.calendarList.list();
     request.execute(function(resp){
         var calendarsList = resp.items;
+        console.log(calendarsList);
         var fs = document.createElement('FIELDSET');
         document.getElementById('calendars').innerHTML = null;
         document.getElementById('calendars').appendChild(fs);
         var lg = document.createElement("LEGEND");
         lg.innerHTML = 'Kalender';
         fs.appendChild(lg);
-        
+
         calendars = [];
         for (i = 0; i < calendarsList.length; ++i) {
             var calendar = calendarsList[i];
 
             var lbl = document.createElement('LABEL');
             lbl.setAttribute('for', calendar.id);
+
             var ckb = document.createElement('INPUT');
             ckb.setAttribute('type', 'checkbox');
             ckb.setAttribute('name', 'calendar');
             ckb.setAttribute('value', calendar.id);
             ckb.setAttribute('id', calendar.id);
+
+            lbl.innerHTML = calendar.summary;
+
             if (calendar.primary) {
                 ckb.setAttribute('selected', 'selected');
                 ckb.setAttribute('checked', 'checked');
-                lbl.innerHTML = calendar.id + ' (primary)';
-            } else {
-                lbl.innerHTML = calendar.id;
+                lbl.innerHTML += ' (primary)';
             }
-            
+
             calendar.checkbox = ckb;
             calendar.label = lbl;
-            
+
             calendars.push(calendar);
             fs.appendChild(calendar.checkbox);
             fs.appendChild(calendar.label);
@@ -86,7 +89,7 @@ function getCalendarProperties() {
         // from
         var fromLabel = document.createElement('LABEL');
         fromLabel.setAttribute('for', 'calendar-from');
-        fromLabel.innerHTML = 'Von';       
+        fromLabel.innerHTML = 'Von';
         var from = document.createElement('INPUT');
         from.setAttribute('id', 'calendar-from');
         from.setAttribute('type', 'text');
@@ -103,7 +106,7 @@ function getCalendarProperties() {
         // maxResults
         var maxResLabel = document.createElement('LABEL');
         maxResLabel.setAttribute('for', 'calendar-max');
-        maxResLabel.innerHTML = 'Max. Anzahl Events'; 
+        maxResLabel.innerHTML = 'Max. Anzahl Events';
         var maxRes = document.createElement('INPUT');
         maxRes.setAttribute('type', 'number');
         maxRes.setAttribute('min', '0');
@@ -139,7 +142,7 @@ function getCalendarProperties() {
         row.appendChild(fromGrp);
         row.appendChild(toGrp);
         row.appendChild(maxGrp);
-        
+
         calendarProperties = document.createElement('FIELDSET');
         calendarProperties.appendChild(lg);
         calendarProperties.appendChild(row);
@@ -155,7 +158,7 @@ function appendDatepicker(id, type) {
     } else if (type === 'last') {
         date = new Date('December 31, ' + new Date().getFullYear());
     }
-    
+
     $(id).datepicker({
         showWeek: true,
         firstDay: 1,
@@ -171,33 +174,33 @@ function listEvents() {
     document.getElementById('calendar-events').innerHTML = null;
     eventFieldSet = getEventFieldSet();
     document.getElementById('calendar-events').appendChild(eventFieldSet);
-    
+
     for (i = 0; i < calendars.length; ++i) {
         if (calendars[i].checkbox.checked) {
             listEvent(calendars[i].id);
         }
     }
-    
+
     appendEventImport();
 }
 
 function listEvent(calendar_id) {
-    
+
     console.info('listEvent: ' + calendar_id);
-    
+
     var calendar_from = $('#calendar-from').datepicker('getDate');
-    calendar_from = calendar_from.getFullYear() + '-' + 
+    calendar_from = calendar_from.getFullYear() + '-' +
                     ('0' + (calendar_from.getMonth() + 1)).slice(-2) + '-' +
                     ('0' + calendar_from.getDate()).slice(-2) + 'T00:00:00.000Z';
-    
+
     var calendar_to = $('#calendar-to').datepicker('getDate');
     calendar_to.setDate(calendar_to.getDate() + 1);
     calendar_to = calendar_to.getFullYear() + '-' +
                     ('0' + (calendar_to.getMonth() + 1)).slice(-2) + '-' +
                     ('0' + calendar_to.getDate()).slice(-2) + 'T00:00:00.000Z';
-    
+
     var maxResults = document.getElementById('calendar-max').value;
-    
+
     var request = gapi.client.calendar.events.list(
         {
             'calendarId': calendar_id,
@@ -208,7 +211,7 @@ function listEvent(calendar_id) {
             'maxResults': maxResults, // Max: 2500, default: 250
             'orderBy': 'startTime'
         });
-        
+
     request.execute(function(resp) {
         var eventsList = resp.items;
 
@@ -238,21 +241,21 @@ function listEvent(calendar_id) {
                 tdChecked.appendChild(event.checked);
                 var tdCalendar = document.createElement('TD');
                 tdCalendar.innerHTML = calendar_id;
-                
+
                 var aLink = document.createElement('A');
                 aLink.setAttribute('href', event.htmlLink);
                 aLink.setAttribute('target', '_blank');
-                aLink.innerHTML = event.summary;                
+                aLink.innerHTML = event.summary;
                 var tdSummary = document.createElement('TD');
                 tdSummary.appendChild(aLink);
-                
+
                 var tdStart = document.createElement('TD');
                 tdStart.innerHTML = getFormatedDateStr(event.start.dateTime);
                 var tdEnd = document.createElement('TD');
                 tdEnd.innerHTML = getFormatedDateStr(event.end.dateTime);
                 var tdLocation = document.createElement('TD');
                 tdLocation.innerHTML = event.location;
-                
+
                 var tr = document.createElement('TR');
                 tr.setAttribute('id', event.id);
                 tr.appendChild(tdChecked);
@@ -306,14 +309,14 @@ function getEventFieldSet() {
     eventSet.setAttribute('id', 'events-set');
     eventSet.appendChild(eventLegend);
     eventSet.appendChild(eventTable);
-    
+
     return eventSet;
 }
 
 function getFormatedDateStr(dateToFormat) {
-    return dateToFormat === undefined ? null : dateToFormat.substring(8,10) + 
-            '.' + dateToFormat.substring(5,7) + 
-            '.' + dateToFormat.substring(0,4) + 
+    return dateToFormat === undefined ? null : dateToFormat.substring(8,10) +
+            '.' + dateToFormat.substring(5,7) +
+            '.' + dateToFormat.substring(0,4) +
             ' ' + dateToFormat.substring(11,19);
 }
 
@@ -323,7 +326,7 @@ function appendEventImport() {
         eventImport.setAttribute('onclick', 'importEvents()');
         eventImport.setAttribute('class', 'btn btn-md btn-primary');
         eventImport.innerHTML = 'Events importieren';
-        
+
         calendarProperties.appendChild(eventImport);
     }
 }

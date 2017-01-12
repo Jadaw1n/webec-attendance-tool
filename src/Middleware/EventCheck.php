@@ -11,7 +11,7 @@ return function ($request, $response, $next) {
 		  return $response->withStatus(404)->withJson(['status' => 'not_found', 'reason' => 'Specified event does not exist.']);
     }
 
-		$request = $request->withAttribute('event', $organisation->sharedOrganisationList[$orgId]);
+		$request = $request->withAttribute('event', $organisation->ownEventList[$eventId]);
 
 		return $next($request, $response);
 	} catch(Exception $e) {

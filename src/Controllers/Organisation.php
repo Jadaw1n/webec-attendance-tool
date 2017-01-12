@@ -26,6 +26,12 @@ class Organisation {
     return $response->withJson($organisation);
   }
 
+  public function getEvents(Request $request, Response $response, $args) {
+    $organisation = $request->getAttribute('organisation');
+
+    return $response->withJson($organisation->ownEventList);
+  }
+
   public function updateData(Request $request, Response $response, $args) {
     $organisation = $request->getAttribute('organisation');
 

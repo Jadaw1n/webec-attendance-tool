@@ -32,7 +32,16 @@ class Auth {
 
       $jwt = JWT::encode($token, $this->ci->get('settings')['authentication']['key']);
 
-      return $response->withJson(['status' => 'success', 'token' => $jwt, 'data' => ['email' => $user->email, 'id' => $user->id]]);
+      return $response->withJson([
+        'status' => 'success',
+        'token' => $jwt,
+        'data' => [
+          'email' => $user->email,
+          'id' => $user->id,
+          // At the moment, the UI does not support multiple organisations
+          'organisation' => array_values($user->sharedOrganisationList)[0]
+        ]
+      ]);
     }
   }
 
