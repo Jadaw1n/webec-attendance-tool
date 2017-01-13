@@ -57,33 +57,16 @@ const Notifications = (() => {
   };
 })();
 
-///////////////////////////////////////////////////////////////////////////////
-// Page controllers
-///////////////////////////////////////////////////////////////////////////////
-
-window.app.page("home", () => {
-  log("home controller: init");
-
-  return () => {
-    log("home controller: called");
-  };
-});
-
-window.app.page("events", () => {
-  log("event controller");
-});
-
-window.app.page("calendar", () => {
-  log("calendar controller: called");
-});
-
 // API calls
 function api(url, data = null) {
   return $.ajax({
     url: "/api/" + url,
     contentType: "application/json",
     data: data === null ? null : JSON.stringify(data),
-    method: data === null ? "GET" : "POST"
+    method: data === null ? "GET" : "POST",
+    headers: {
+      Authorization: User.getToken()
+    },
   }).catch(msg => {
     log("API Error", msg);
     alert("API Error", JSON.stringify(msg));

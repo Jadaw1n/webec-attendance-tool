@@ -74,7 +74,7 @@
   $(window).on("hashchange", onhashchange );
 
   window.app = app;
-    
+
   // Call onhashchange manually for the initialization.
   // setTimeout is used to postpone initialization so application can configure window.app.get = function(src,$page,pageName); for example
   window.setTimeout( function() { $(onhashchange); } );

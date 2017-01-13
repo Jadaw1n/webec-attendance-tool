@@ -32,16 +32,22 @@ $app->group('/api', function() {
     $this->get('/mine', '\Controllers\Organisation:myOrganisations');
 
     $this->group('/{org_id}', function() {
-      $this->get('[/]', '\Controllers\Organisation:getData'); // get basic org data, members, event dates
-      $this->post('[/]', '\Controllers\Organisation:updateData'); // update basic org data
+      //$this->get('[/]', '\Controllers\Organisation:getData');
+      //$this->post('[/]', '\Controllers\Organisation:updateData'); // update basic org data
 
       // $this->post('/updateEvents', '\Controllers\Organisation:updateEvents'); // update event list?
       // $this->post('/updateMembers', '\Controllers\Organisation:updateMembers'); // update member list?
 
-      $this->group('/event/{event_id}', function() {
-        $this->get('/eventDetail', '\Controllers\Event:getData'); // get full event data
-        $this->post('/attendance', '\Controllers\Event:updateAttendance');
-      })->add(require('../Middleware/EventCheck.php'));
+      $this->group('/events', function() {
+        $this->get('[/]', '\Controllers\Organisation:getEvents');
+
+        $this->post('[/]', '\Controllers\Event:createEvent');
+
+        $this->group('/{event_id}', function() {
+          $this->get('[/]', '\Controllers\Event:getData'); // get full event data
+          $this->post('/attendance', '\Controllers\Event:updateAttendance');
+        })->add(require('../Middleware/EventCheck.php'));
+      });
     })->add(require('../Middleware/OrganisationCheck.php'));
   })->add(require('../Middleware/LoginCheck.php'));
 });

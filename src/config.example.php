@@ -5,7 +5,7 @@ return [
     'displayErrorDetails' => true,
     'authentication' => [
       'key' => 'random key here',
-      'validity' => 3600
+      'validity' => 86400
     ],
     'database' => 'sqlite:./database.sqlite',
     'database_freeze' => true

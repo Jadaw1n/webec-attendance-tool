@@ -19,6 +19,28 @@ class Event {
     return $response->withJson($event);
   }
 
+  public function createEvent(Request $request, Response $response, $args) {
+    $organisation = $request->getAttribute('organisation');
+    $json = $request->getParsedBody();
+
+    $event = R::dispense('event');
+
+    $event->start = \DateTime::createFromFormat('d.m.Y G:i', $json['date'] . " " . $json['timeStart']);
+    $event->end = \DateTime::createFromFormat('d.m.Y G:i', $json['date'] . " " . $json['timeEnd']);
+
+    if(strlen($json['subject']) == 0) {
+      return $response->withJson(['status' => 'error', 'message' => 'Der Titel darf nicht leer sein.']);
+    }
+
+    $event->subject = $json['subject'];
+    $event->description = $json['description'];
+    $event->organisation = $organisation;
+
+    $id = R::store($event);
+
+    return $response->withJson(['status' => 'success', 'id' => $id]);
+  }
+
   public function updateData(Request $request, Response $response, $args) {
     $event = $request->getAttribute('event');
 
