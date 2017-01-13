@@ -58,18 +58,25 @@ const Notifications = (() => {
 })();
 
 // API calls
-function api(url, data = null) {
+function api(url, data = null, method = null) {
   return $.ajax({
     url: "/api/" + url,
     contentType: "application/json",
     data: data === null ? null : JSON.stringify(data),
-    method: data === null ? "GET" : "POST",
+    method: method !== null ? method : (data === null ? "GET" : "POST"),
     headers: {
       Authorization: User.getToken()
     },
-  }).catch(msg => {
-    log("API Error", msg);
-    alert("API Error", JSON.stringify(msg));
+  }).catch(error => {
+    const msg = error.responseJSON;
+    if (msg.status === "not_logged_in") {
+      User.logout();
+      window.location.hash = "login";
+      return;
+    }
+
+    log("API Error", msg.responseText);
+    alert("API Error", JSON.stringify(error));
   });
 }
 

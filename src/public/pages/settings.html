@@ -1,3 +1,5 @@
+<script src="js/settings.js"></script>
+
 <div class="row title">
     <div class="col-xs-12">
         <h1>Einstellungen</h1>
@@ -6,7 +8,7 @@
 </div>
 
 <div class="row content">
-    <div class="col-xs-12">
+    <div class="col-xs-12 col-md-4 col-md-offset-4">
         <h2>Existierende Gründe</h2>
         <table class="table table-striped">
             <thead>
@@ -16,28 +18,14 @@
                 <th width="20%" class="right">Aktion</th>
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td>1</td>
-                <td>Ferien</td>
-                <td class="right"><a href="#">entfernen</a></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Krankheit</td>
-                <td class="right"><a href="#">entfernen</a></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Sonstiger</td>
-                <td class="right"><a href="#">entfernen</a></td>
-            </tr>
+            <tbody id="reasonList">
             </tbody>
         </table>
     </div>
-    <div class="col-xs-12 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-md-4 col-md-offset-4">
         <h2>Neuen Grund hinzufügen</h2>
-        <form>
+        <form id="reasonAddForm">
+            <errors />
             <div class="form-group">
                 <label for="reason" class="control-label">Grund</label>
                 <input type="text" id="reason" name="reason" class="form-control" placeholder="Ferien, Krankheit, Militärdienst etc.">

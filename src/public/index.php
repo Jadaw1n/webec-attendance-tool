@@ -35,8 +35,15 @@ $app->group('/api', function() {
       //$this->get('[/]', '\Controllers\Organisation:getData');
       //$this->post('[/]', '\Controllers\Organisation:updateData'); // update basic org data
 
-      // $this->post('/updateEvents', '\Controllers\Organisation:updateEvents'); // update event list?
-      // $this->post('/updateMembers', '\Controllers\Organisation:updateMembers'); // update member list?
+      $this->group('/reasons', function() {
+        $this->get('[/]', '\Controllers\Organisation:getReasons');
+
+        $this->post('[/]', '\Controllers\Reason:createReason');
+
+        $this->group('/{reason_id}', function() {
+          $this->delete('[/]', '\Controllers\Reason:deleteReason');
+        });
+      });
 
       $this->group('/events', function() {
         $this->get('[/]', '\Controllers\Organisation:getEvents');

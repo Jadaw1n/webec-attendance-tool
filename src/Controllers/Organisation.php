@@ -32,6 +32,12 @@ class Organisation {
     return $response->withJson($organisation->ownEventList);
   }
 
+  public function getReasons(Request $request, Response $response, $args) {
+    $organisation = $request->getAttribute('organisation');
+
+    return $response->withJson($organisation->ownReasonList);
+  }
+
   public function updateData(Request $request, Response $response, $args) {
     $organisation = $request->getAttribute('organisation');
 
