@@ -167,8 +167,12 @@ input:checked + .slider:before {
   margin-bottom: -4px; !important;
 }
 
+.left {
+  text-align: left;
+}
+
 .right {
-    text-align: right;
+  text-align: right;
 }
 
 /* forms */

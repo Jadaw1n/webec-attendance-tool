@@ -1,1 +1,70 @@
-<h1>Member list...</h1>
+<div class="row title">
+    <div class="col-xs-12">
+        <h1>Mitglieder</h1>
+        <p>Mitglieder hinzufügen oder entfernen</p>
+    </div>
+</div>
+
+<div class="row content">
+    <div class="col-xs-12">
+        <h2>Mitgliederliste</h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Vorname</th>
+                <th>Nachname</th>
+                <th class="right">Aktion</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td><a href="#member">Pierro</a></td>
+                <td>Steinger</td>
+                <td class="right"><a href="#">bearbeiten</a> / <a href="#">entfernen</a></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td><a href="#member">Markus</a></td>
+                <td>Plüss</td>
+                <td class="right"><a href="#">bearbeiten</a> / <a href="#">entfernen</a></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td><a href="#member">Lars</a></td>
+                <td>Kessler</td>
+                <td class="right"><a href="#">bearbeiten</a> / <a href="#">entfernen</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-xs-12 col-md-6">
+        <h2>Mitglied bearbeiten</h2>
+        <form role="form" id="editMemberForm">
+            <div class="form-group">
+                <label for="nameEdit" class="control-label">Vorname:</label>
+                <input type="text" id="nameEdit" name="nameEdit" class="form-control" disabled><!-- aktiviert sich erst, wenn auf bearbeiten geklickt wurde -->
+            </div>
+            <div class="form-group">
+                <label for="lastnameEdit" class="control-label">Nachname:</label>
+                <input type="text" id="lastnameEdit" name="lastnameEdit" class="form-control" disabled><!-- aktiviert sich erst, wenn auf bearbeiten geklickt wurde -->
+            </div>
+            <button class="btn btn-md btn-primary btn-block" type="submit">speichern</button>
+        </form>
+    </div>
+    <div class="col-xs-12 col-md-6">
+        <h2>Neues Mitglied hinzufügen</h2>
+        <form role="form" id="addMemberForm">
+            <div class="form-group">
+                <label for="name" class="control-label">Vorname:</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="Hans">
+            </div>
+            <div class="form-group">
+                <label for="lastname" class="control-label">Nachname:</label>
+                <input type="text" id="lastname" name="v" class="form-control" placeholder="Muster">
+            </div>
+            <button class="btn btn-md btn-primary btn-block" type="submit">hinzufügen</button>
+        </form>
+    </div>
+</div>
