@@ -13,6 +13,15 @@ class Member {
 		$this->ci = $ci;
 	}
 
+	public function show(Request $request, Response $response, $args) {
+		$organisation = $request->getAttribute('organisation');
+		$memberId = $args['member_id'];
+
+		$member = $organisation->ownMemberList[$memberId];
+
+		return $response->withJson(['status' => 'success', 'member' => $member]);
+	}
+
 	public function create(Request $request, Response $response, $args) {
 		$organisation = $request->getAttribute('organisation');
 		$json = $request->getParsedBody();
