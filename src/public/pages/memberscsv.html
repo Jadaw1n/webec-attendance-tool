@@ -1,0 +1,22 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
+<script src="../js/memberscsv.js"></script>
+
+<div class="row title">
+    <div class="col-xs-12">
+        <h1>Mitglieder importieren</h1>
+        <p>Mitglieder aus einem csv File nach Wahl importieren</p>
+    </div>
+</div>
+
+<div class="row content">
+    <div class="col-xs-12">
+        <div id='select-file'>
+            <fieldset>
+                <input type='file' id='member-csv-file' name='files[]' accept='.csv' />
+                <input type='button' value='Browse...' class='btn btn-md btn-primary'
+                       onclick="document.getElementById('member-csv-file').click();" />
+                <output id="list"></output>
+            </fieldset>
+        </div> 
+    </div>
+</div>

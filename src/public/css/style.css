@@ -198,3 +198,11 @@ fieldset > span, fieldset > input {
 #calendar-properties {
     margin-top: 15px;
 }
+
+/* memberscsv */
+#member-csv-file {
+    display: none;
+}
+#member-csv-file-name {
+    font-weight: bold;
+}
