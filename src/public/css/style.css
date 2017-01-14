@@ -206,3 +206,6 @@ fieldset > span, fieldset > input {
 #member-csv-file-name {
     font-weight: bold;
 }
+#member-csv-file-select, #members-set {
+    margin-top: 15px;
+}
