@@ -49,6 +49,7 @@ $app->group('/api', function() {
         $this->get('[/]', '\Controllers\Organisation:getEvents');
 
         $this->post('[/]', '\Controllers\Event:createEvent');
+        $this->post('/import', '\Controllers\Event:importEvents');
 
         $this->group('/{event_id}', function() {
           $this->get('[/]', '\Controllers\Event:getData'); // get full event data

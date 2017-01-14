@@ -1,4 +1,4 @@
-<script src="../js/calendar.js"></script>
+<script src="/js/calendar.js"></script>
 
 <div class="row title">
     <div class="col-xs-12">
@@ -6,13 +6,49 @@
         <p>Events vom Google Kalender nach Wahl importieren</p>
     </div>
 </div>
+
 <div class="row content">
     <div class="col-xs-12">
-        <div id='calendars'></div>
-        <div id='calendar-properties'>
-            <a href='#' id='authorize-button' class="btn btn-md btn-primary">Login</a>
+        <div id="calendars"></div>
+        <a href="#" id="authorize-button" class="btn btn-md btn-primary">Google Login</a>
+        <div id="calendar-properties" style="display: none">
+<fieldset>
+    <legend>Kalender Einstellungen</legend>
+    <div class="row">
+        <div class="form-group col-xs-12 col-md-6 col-lg-4">
+            <label for="calendar-from">Von</label>
+            <input id="calendar-from" class="form-control">
         </div>
-        <div id='calendar-actions'></div>
-        <div id='calendar-events'></div>
+        <div class="form-group col-xs-12 col-md-6 col-lg-4">
+            <label for="calendar-to" class="control-label">Bis</label>
+            <input id="calendar-to" class="form-control">
+        </div>
+        <div class="form-group col-xs-12 col-md-6 col-lg-4">
+            <label for="calendar-max">Max. Anzahl Events</label>
+            <input min="0" max="2500" value="100" id="calendar-max" class="form-control" name="maxResults" type="number">
+        </div>
     </div>
+    <button class="btn btn-md btn-primary" id="calendarLoadEvents">Events laden</button>
+</fieldset>
+</div>
+<br />
+<div id="calendar-events" style="display: none">
+<fieldset>
+    <legend>Events</legend>
+    <button class="btn btn-md btn-primary" id="calendarImportEvents">Events importieren</button>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Importieren</th>
+                <th>Kalenderherkunft</th>
+                <th>Beschreibung</th>
+                <th>Startzeit</th>
+                <th>Endzeit</th>
+                <th>Ort</th>
+            </tr>
+        </thead>
+        <tbody id="calendarEventList"></tbody>
+    </table>
+</fieldset>
 </div>

@@ -1,6 +1,6 @@
 const createEventCard = ({id, start, subject, description}) => {
   const startFmt = start.split(" ")[1].slice(0, -3);
-  const descriptionFmt = description.replace(/(?:\r\n|\r|\n)/g, '<br />');
+  const descriptionFmt = description == null ? "" : description.replace(/(?:\r\n|\r|\n)/g, '<br />');
   return `
 <div class="col-xs-12 col-md-6 col-lg-4">
     <div class="panel panel-default">
@@ -19,7 +19,7 @@ const createDayPart = (day, events) => {
   return `
 <h3>${dateFmt}</h3>
 <div class="row">
-${events.map(createEventCard)}
+${events.map(createEventCard).join('')}
 </div>
 `;
 };
