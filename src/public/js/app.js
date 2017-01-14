@@ -30,7 +30,7 @@ const User = (() => {
 
 // navigation functions
 const updateNavigation = () => {
-  const hash = location.hash.slice(1) || $("section[default]").attr('id');
+  const hash = (location.hash.slice(1) || $("section[default]").attr('id')).split(':')[0];
 
   // navigation update
   const naviLoggedIn = User.isLoggedIn() ? "#naviloggedIn" : "#naviloggedOut";

@@ -1,22 +1,35 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js"></script>
-<script src="../js/memberscsv.js"></script>
+<script src="/js/memberscsv.js"></script>
 
 <div class="row title">
     <div class="col-xs-12">
         <h1>Mitglieder importieren</h1>
-        <p>Mitglieder aus einem csv File nach Wahl importieren</p>
+        <p>Mitglieder aus einem CSV File importieren.</p>
+        <p>Im CSV File müssen die folgenden Kolonnentitel existieren, damit der Import funktioniert: <b>firstname, lastname</b></p>
     </div>
 </div>
 
 <div class="row content">
-    <div class="col-xs-12">
-        <div id='select-file'>
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
+        <div id="select-file">
+            <errors />
             <fieldset>
-                <input type='file' id='member-csv-file' name='files[]' accept='.csv' />
-                <input type='button' value='Browse...' class='btn btn-md btn-primary'
-                       onclick="document.getElementById('member-csv-file').click();" />
-                <output id="list"></output>
+                <input type="file" id="member-csv-file" name="files[]" accept=".csv" />
+                <input type="button" value="Datei öffnen" class="btn btn-md btn-primary" onclick="document.getElementById('member-csv-file').click();" />
             </fieldset>
-        </div> 
+            <div id="csvInfos"></div>
+            <br />
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Vorname</th>
+                        <th>Nachname</th>
+                    </tr>
+                </thead>
+                <tbody id="memberCSVPreview">
+                </tbody>
+            </table>
+            <button class="btn btn-md btn-primary" id="memberImportButton">Mitglieder importieren</button>
+        </div>
     </div>
 </div>

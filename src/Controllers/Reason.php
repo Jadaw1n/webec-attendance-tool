@@ -13,7 +13,7 @@ class Reason {
 		$this->ci = $ci;
 	}
 
-	public function createReason(Request $request, Response $response, $args) {
+	public function create(Request $request, Response $response, $args) {
 		$organisation = $request->getAttribute('organisation');
 		$json = $request->getParsedBody();
 
@@ -32,7 +32,7 @@ class Reason {
 		return $response->withJson(['status' => 'success', 'id' => $id]);
 	}
 
-	public function deleteReason(Request $request, Response $response, $args) {
+	public function delete(Request $request, Response $response, $args) {
     $organisation = $request->getAttribute('organisation');
 		$reasonId = $args['reason_id'];
 

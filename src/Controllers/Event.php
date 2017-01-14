@@ -13,13 +13,13 @@ class Event {
 		$this->ci = $ci;
 	}
 
-	public function getData(Request $request, Response $response, $args) {
+	public function show(Request $request, Response $response, $args) {
 		$event = $request->getAttribute('event');
 
 		return $response->withJson($event);
 	}
 
-	public function createEvent(Request $request, Response $response, $args) {
+	public function create(Request $request, Response $response, $args) {
 		$organisation = $request->getAttribute('organisation');
 		$json = $request->getParsedBody();
 
@@ -41,7 +41,7 @@ class Event {
 		return $response->withJson(['status' => 'success', 'id' => $id]);
 	}
 
-	public function importEvents(Request $request, Response $response, $args) {
+	public function import(Request $request, Response $response, $args) {
 		$organisation = $request->getAttribute('organisation');
 		$json = $request->getParsedBody();
 

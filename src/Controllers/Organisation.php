@@ -38,6 +38,12 @@ class Organisation {
     return $response->withJson($organisation->ownReasonList);
   }
 
+  public function getMembers(Request $request, Response $response, $args) {
+    $organisation = $request->getAttribute('organisation');
+
+    return $response->withJson($organisation->ownMemberList);
+  }
+
   public function updateData(Request $request, Response $response, $args) {
     $organisation = $request->getAttribute('organisation');
 

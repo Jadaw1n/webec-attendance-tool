@@ -32,27 +32,34 @@ $app->group('/api', function() {
     $this->get('/mine', '\Controllers\Organisation:myOrganisations');
 
     $this->group('/{org_id}', function() {
-      //$this->get('[/]', '\Controllers\Organisation:getData');
-      //$this->post('[/]', '\Controllers\Organisation:updateData'); // update basic org data
 
       $this->group('/reasons', function() {
         $this->get('[/]', '\Controllers\Organisation:getReasons');
-
-        $this->post('[/]', '\Controllers\Reason:createReason');
-
+        $this->post('[/]', '\Controllers\Reason:create');
         $this->group('/{reason_id}', function() {
-          $this->delete('[/]', '\Controllers\Reason:deleteReason');
+          $this->delete('[/]', '\Controllers\Reason:delete');
+        });
+      });
+
+      $this->group('/members', function() {
+        $this->get('[/]', '\Controllers\Organisation:getMembers');
+        $this->post('[/]', '\Controllers\Member:create');
+        $this->post('/import', '\Controllers\Member:import');
+
+        $this->group('/{member_id}', function() {
+          $this->get('[/]', '\Controllers\Member:show');
+          $this->delete('[/]', '\Controllers\Member:delete');
         });
       });
 
       $this->group('/events', function() {
         $this->get('[/]', '\Controllers\Organisation:getEvents');
 
-        $this->post('[/]', '\Controllers\Event:createEvent');
-        $this->post('/import', '\Controllers\Event:importEvents');
+        $this->post('[/]', '\Controllers\Event:create');
+        $this->post('/import', '\Controllers\Event:import');
 
         $this->group('/{event_id}', function() {
-          $this->get('[/]', '\Controllers\Event:getData'); // get full event data
+          $this->get('[/]', '\Controllers\Event:show'); // get full event data
           $this->post('/attendance', '\Controllers\Event:updateAttendance');
         })->add(require('../Middleware/EventCheck.php'));
       });
