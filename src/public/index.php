@@ -60,7 +60,7 @@ $app->group('/api', function() {
 
         $this->group('/{event_id}', function() {
           $this->get('[/]', '\Controllers\Event:show'); // get full event data
-          $this->post('/attendance', '\Controllers\Event:updateAttendance');
+          $this->post('/attendance/{attendance_id}', '\Controllers\Event:updateAttendance');
         })->add(require('../Middleware/EventCheck.php'));
       });
     })->add(require('../Middleware/OrganisationCheck.php'));

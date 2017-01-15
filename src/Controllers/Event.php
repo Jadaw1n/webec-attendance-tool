@@ -14,9 +14,28 @@ class Event {
 	}
 
 	public function show(Request $request, Response $response, $args) {
+		$organisation = $request->getAttribute('organisation');
 		$event = $request->getAttribute('event');
 
-		return $response->withJson($event);
+		if(count($event->ownAttendanceList) == 0) {
+			// initialise list
+			foreach($organisation->ownMemberList as $member) {
+				if($member->shown == "0") continue; // don't add deleted members
+
+				$event->ownAttendanceList[] = $att = R::dispense('attendance');
+				$att->member = $member;
+				$att->event = $event;
+				$att->presence = true;
+				$att->reason_id = null;
+			}
+
+			R::store($event);
+
+			// reload attendance list
+			$event->ownAttendanceList;
+		}
+
+		return $response->withJson(['status' => 'success', 'event' => $event, 'members' => $organisation->ownMemberList]);
 	}
 
 	public function create(Request $request, Response $response, $args) {
@@ -44,7 +63,6 @@ class Event {
 	public function import(Request $request, Response $response, $args) {
 		$organisation = $request->getAttribute('organisation');
 		$json = $request->getParsedBody();
-
 
     $events = [];
 
@@ -75,25 +93,18 @@ class Event {
 		return $response->withJson(['status' => 'success']);
 	}
 
-	public function updateData(Request $request, Response $response, $args) {
-		$event = $request->getAttribute('event');
-
-		// 		contains array with org attributes, event list, member list, reason list
-								    // 		convention:
-								    // 		each event/member/reason-list is an object with it's attributes. if it's missing the id, it's a new object and to be created
-    $json = $request->getParsedBody();
-    // update org attributes
-    // update events add/remove
-    // update members add/disable/remove
-    // update reasons add/disable
-    return $response->withJson(['status' => 'success']);
-  }
   public function updateAttendance(Request $request, Response $response, $args) {
-    $user = $request->getAttribute('user');
     $organisation = $request->getAttribute('organisation');
     $event = $request->getAttribute('event');
     $json = $request->getParsedBody();
-    // json contains an event id, and a list of all active members with the reason code
+
+		$attendance = $event->ownAttendanceList[$args['attendance_id']];
+
+		$attendance->presence = $json['presence'];
+		$attendance->reason_id = $json['reason'];
+
+		R::store($attendance);
+
     return $response->withJson(['status' => 'success']);
   }
 }

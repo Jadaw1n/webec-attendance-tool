@@ -8,101 +8,24 @@
 </div>
 
 <div class="row content">
-    <div class="col-xs-12">
-        <h2>Teilnehmer 10.01.2017, 22:00</h2>
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
+        <h2>Teilnehmer</h2>
+        <p>Alle Änderungen werden automatisch gespeichert.</p>
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th width="10%">#</th>
-                    <th width="35%">Vorname</th>
-                    <th width="35%">Nachname</th>
-                    <th width="10%">Grund</th>
-                    <th class="right" width="10%">Anwesend</th>
+                    <th width="30%">Vorname</th>
+                    <th width="30%">Nachname</th>
+                    <th width="10%">Anwesend</th>
+                    <th width="20%">Grund</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Markus</td>
-                    <td>Plüss</td>
-                    <td class="no-padding">
-                        <div class="btn-group">
-                            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Grund <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Ferien</a></li>
-                                <li><a href="#">Krank</a></li>
-                                <li><a href="#">Militär</a></li>
-                                <li><a href="#">Sonstiges</a></li>
-                                <li class="divider" role="separator"></li>
-                                <li><a href="#">unentschuldigt</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td class="no-padding right">
-                        <label class="switch">
-                            <input type="checkbox">
-                            <div class="slider"></div>
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Pierro</td>
-                    <td>Steinger</td>
-                    <td class="no-padding">
-                        <div class="btn-group">
-                            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Grund <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Ferien</a></li>
-                                <li><a href="#">Krank</a></li>
-                                <li><a href="#">Militär</a></li>
-                                <li><a href="#">Sonstiges</a></li>
-                                <li class="divider" role="separator"></li>
-                                <li><a href="#">unentschuldigt</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td class="no-padding right">
-                        <label class="switch">
-                            <input type="checkbox" checked>
-                            <div class="slider"></div>
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Lars</td>
-                    <td>Kessler</td>
-                    <td class="no-padding">
-                        <div class="btn-group">
-                            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Grund <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Ferien</a></li>
-                                <li><a href="#">Krank</a></li>
-                                <li><a href="#">Militär</a></li>
-                                <li><a href="#">Sonstiges</a></li>
-                                <li class="divider" role="separator"></li>
-                                <li><a href="#">unentschuldigt</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td class="no-padding right">
-                        <label class="switch">
-                            <input type="checkbox" checked>
-                            <div class="slider"></div>
-                        </label>
-                    </td>
-                </tr>
+            <tbody id="attendanceList">
             </tbody>
         </table>
     </div>
-    
+
     <div class='col-xs-12'>
         <h2>Diagramm: Verteilung nach Grund</h2>
         <div id='chart-event-reasons'></div>
