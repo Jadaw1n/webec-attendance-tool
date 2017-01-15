@@ -60,14 +60,14 @@ function showStackColChart(id, title, jData, width, height) {
 function showStackedAreaChart(id, title, jData, width, height) {
     // Create the data table.
     var data = new google.visualization.DataTable(jData);
-    // Set chart options
+    // Set chart options.
     var options = {
         'title'     : title,
         'width'     : width,
         'height'    : height,
         'isStacked' : true
     };
-    // Instantiate and draw our chart, passing in some options.
+    // Instantiate and draw chart, passing in some options.
     var chart = new google.visualization.AreaChart(document.getElementById(id));
     chart.draw(data, options);
 }

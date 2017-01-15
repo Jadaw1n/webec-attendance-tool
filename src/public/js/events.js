@@ -77,37 +77,41 @@ window.app.page("events", () => {
 });
 
 function setChartEventsReasons() {
-    /*api(`organisation/${User.getData().organisation.id}/events`).then(events => {
-        const eventsData = Object.values(events);
-        console.info(eventsData);
-    });
-    
-    api(`organisation/${User.getData().organisation.id}/members`).then(members => {
-        const membersData = Object.values(members);
-        console.info(membersData);
-    });
-    
+    var jData = {};
+    jData.cols = [];
+    jData.cols[jData.cols.length] = {'id':'','label':'Topping','pattern':'','type':'string'};
+    jData.cols[jData.cols.length] = {'id':'','label':'Anwesend','pattern':'','type':'number'};
+ 
     api(`organisation/${User.getData().organisation.id}/reasons`).then(reasons => {
         const reasonsData = Object.values(reasons);
-        console.info(reasonsData);
+        for (i = 0; i < reasonsData.length; ++i) {
+            jData.cols[jData.cols.length] = {'id':'','label': reasonsData[i].text ,'pattern':'','type':'number'};
+        }
+        
+        jData.rows = [];
+        
+        api(`organisation/${User.getData().organisation.id}/events`).then(events => {
+            const eventsJdata = Object.values(events);
+            var data = eventsJdata.sort(function(a, b){
+                return new Date(a.start)-new Date(b.start);
+            });
+
+            for (i = 0; i < data.length; ++i) {
+                var start = new Date(data[i].start);
+                var eventStr = data[i].subject + '(' + start.getDate() + '.' + (start.getMonth() + 1) + '.' + start.getFullYear().toString().substring(2,4) + ')';
+                
+                var row = {'c':[{"v":eventStr,"f":null},{"v":12,"f":null}]};
+                for (j = 0; j < reasonsData.length; ++j) {
+                    row.c[row.c.length] = {"v":1,"f":null};
+                }
+                jData.rows[jData.rows.length] = row;
+            }
+            showStackedAreaChart('chart-events-reasons', null, jData, 800, 500);
+        });
+    });
+    
+    /*api(`organisation/${User.getData().organisation.id}/members`).then(members => {
+        const membersData = Object.values(members);
+        console.info(membersData);
     });*/
-    
-    var jData = {
-    "cols": [
-          {"id":"","label":"Topping","pattern":"","type":"string"},
-          {"id":"","label":"Anwesend","pattern":"","type":"number"},
-          {"id":"","label":"Ferien","pattern":"","type":"number"},
-          {"id":"","label":"Krank","pattern":"","type":"number"},
-          {"id":"","label":"Militär","pattern":"","type":"number"},
-          {"id":"","label":"Sonstiges","pattern":"","type":"number"},
-          {"id":"","label":"Unentschuldigt","pattern":"","type":"number"}
-        ],
-    "rows": [
-          {"c":[{"v":"Event1","f":null},{"v":12,"f":null},{"v":1,"f":null},{"v":0,"f":null},{"v":0,"f":null},{"v":2,"f":null},{"v":3,"f":null}]},
-          {"c":[{"v":"Event2","f":null},{"v":8,"f":null},{"v":0,"f":null},{"v":2,"f":null},{"v":0,"f":null},{"v":2,"f":null},{"v":5,"f":null}]},
-          {"c":[{"v":"Event3","f":null},{"v":15,"f":null},{"v":2,"f":null},{"v":0,"f":null},{"v":1,"f":null},{"v":0,"f":null},{"v":1,"f":null}]}
-        ]
-    };
-    
-    showStackedAreaChart('chart-events-reasons', null, jData, 800, 500);
 }
