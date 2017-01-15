@@ -49,5 +49,40 @@ window.app.page("members", () => {
   return () => {
     // called every time the page is accessed
     updateMemberTable();
+    setChartMembersReasons();
   }
 });
+
+function setChartMembersReasons() {
+    var jData = {};
+    jData.cols = [];
+    jData.cols[jData.cols.length] = {'id':'','label':'Topping','pattern':'','type':'string'};
+    jData.cols[jData.cols.length] = {'id':'','label':'Anwesend','pattern':'','type':'number'};
+ 
+    api(`organisation/${User.getData().organisation.id}/reasons`).then(reasons => {
+        const reasonsData = Object.values(reasons);
+        for (i = 0; i < reasonsData.length; ++i) {
+            jData.cols[jData.cols.length] = {'id':'','label': reasonsData[i].text ,'pattern':'','type':'number'};
+        }
+        
+        jData.rows = [];
+        
+        api(`organisation/${User.getData().organisation.id}/members`).then(members => {
+            const membersJdata = Object.values(members);
+            
+            console.info('setChartMembersReasons(): ' + membersJdata.length);
+
+            for (i = 0; i < membersJdata.length; ++i) {
+                var row = {'c':[
+                        {'v':membersJdata[i].firstname + ' ' + membersJdata[i].lastname, 'f':null},
+                        {'v':12,'f':null}
+                    ]};
+                for (j = 0; j < reasonsData.length; ++j) {
+                    row.c[row.c.length] = {"v":1,"f":null};
+                }
+                jData.rows[jData.rows.length] = row;
+            }
+            showStackedAreaChart('chart-members-reasons', null, jData, 800, 500);
+        });
+    });
+}

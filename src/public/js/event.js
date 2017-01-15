@@ -7,11 +7,11 @@ window.app.page("event", () => {
       log(event);
     });
     
-    setChartEventsReasons()
+    setChartEventReasons();
   }
 });
 
-function setChartEventsReasons() {
+function setChartEventReasons() {
     var jData = {};
     jData.cols = [];
     jData.cols[jData.cols.length] = {'id':'','label':'Topping','pattern':'','type':'string'};

@@ -73,7 +73,7 @@ window.app.page("events", () => {
     });
     
     setChartEventsReasons();
-  }
+    }
 });
 
 function setChartEventsReasons() {
