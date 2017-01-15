@@ -71,5 +71,43 @@ window.app.page("events", () => {
 
       $("#allEvents").html(Object.keys(eventsByDate).map(date => createDayPart(date, eventsByDate[date])));
     });
+    
+    setChartEventsReasons();
   }
 });
+
+function setChartEventsReasons() {
+    /*api(`organisation/${User.getData().organisation.id}/events`).then(events => {
+        const eventsData = Object.values(events);
+        console.info(eventsData);
+    });
+    
+    api(`organisation/${User.getData().organisation.id}/members`).then(members => {
+        const membersData = Object.values(members);
+        console.info(membersData);
+    });
+    
+    api(`organisation/${User.getData().organisation.id}/reasons`).then(reasons => {
+        const reasonsData = Object.values(reasons);
+        console.info(reasonsData);
+    });*/
+    
+    var jData = {
+    "cols": [
+          {"id":"","label":"Topping","pattern":"","type":"string"},
+          {"id":"","label":"Anwesend","pattern":"","type":"number"},
+          {"id":"","label":"Ferien","pattern":"","type":"number"},
+          {"id":"","label":"Krank","pattern":"","type":"number"},
+          {"id":"","label":"Militär","pattern":"","type":"number"},
+          {"id":"","label":"Sonstiges","pattern":"","type":"number"},
+          {"id":"","label":"Unentschuldigt","pattern":"","type":"number"}
+        ],
+    "rows": [
+          {"c":[{"v":"Event1","f":null},{"v":12,"f":null},{"v":1,"f":null},{"v":0,"f":null},{"v":0,"f":null},{"v":2,"f":null},{"v":3,"f":null}]},
+          {"c":[{"v":"Event2","f":null},{"v":8,"f":null},{"v":0,"f":null},{"v":2,"f":null},{"v":0,"f":null},{"v":2,"f":null},{"v":5,"f":null}]},
+          {"c":[{"v":"Event3","f":null},{"v":15,"f":null},{"v":2,"f":null},{"v":0,"f":null},{"v":1,"f":null},{"v":0,"f":null},{"v":1,"f":null}]}
+        ]
+    };
+    
+    showStackedAreaChart('chart-events-reasons', null, jData, 800, 500);
+}
