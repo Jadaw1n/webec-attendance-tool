@@ -23,6 +23,18 @@ function showStackedAreaChart(id, title, dataArray, width, height) {
   chart.draw(data, options);
 }
 
+
+function showColumnChart(id, title, dataArray) {
+  // Creates the data table.
+  const data = google.visualization.arrayToDataTable(dataArray);
+  // Set chart options.
+  const options = { title, 'isStacked': true };
+
+  // Instantiates and draw chart, passing in some options.
+  const chart = new google.visualization.ColumnChart(document.getElementById(id));
+  chart.draw(data, options);
+}
+
 function chartAttendanceByReason(attendances, reasons, outputElementId) {
   // for when no reason was set
   reasons["0"] = { text: "Unbekannt" };
