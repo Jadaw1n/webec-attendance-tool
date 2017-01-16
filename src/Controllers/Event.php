@@ -7,12 +7,14 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use \Interop\Container\ContainerInterface as ContainerInterface;
 use \RedBeanPHP\R;
 
+// event endpoints
 class Event {
 	protected $ci;
 	public function __construct(ContainerInterface $ci) {
 		$this->ci = $ci;
 	}
 
+	// get infos about event
 	public function show(Request $request, Response $response, $args) {
 		$organisation = $request->getAttribute('organisation');
 		$event = $request->getAttribute('event');
@@ -38,6 +40,7 @@ class Event {
 		return $response->withJson(['status' => 'success', 'event' => $event, 'members' => $organisation->ownMemberList]);
 	}
 
+	// create a new event
 	public function create(Request $request, Response $response, $args) {
 		$organisation = $request->getAttribute('organisation');
 		$json = $request->getParsedBody();
@@ -47,6 +50,7 @@ class Event {
 		$event->start = \DateTime::createFromFormat('d.m.Y G:i', $json['date'] . " " . $json['timeStart']);
 		$event->end = \DateTime::createFromFormat('d.m.Y G:i', $json['date'] . " " . $json['timeEnd']);
 
+		// validation checks
 		if(strlen($json['subject']) == 0) {
 			return $response->withJson(['status' => 'error', 'message' => 'Der Titel darf nicht leer sein.']);
 		}
@@ -60,6 +64,7 @@ class Event {
 		return $response->withJson(['status' => 'success', 'id' => $id]);
 	}
 
+	// import events from google calendar
 	public function import(Request $request, Response $response, $args) {
 		$organisation = $request->getAttribute('organisation');
 		$json = $request->getParsedBody();
@@ -69,6 +74,7 @@ class Event {
 		foreach($json as $data) {
       $events[] = $event = R::dispense('event');
 
+			// a google calendar entry is either for the whole day or for a specific time
 			if(array_key_exists('dateTime', $data['start'])) {
 				$event->start = new \DateTime($data['start']['dateTime']);
 			} else {
@@ -85,6 +91,7 @@ class Event {
       if(array_key_exists('description', $data)) {
 				$event->description = $data['description'];
 			}
+
 			$event->organisation = $organisation;
 		}
 
@@ -93,15 +100,15 @@ class Event {
 		return $response->withJson(['status' => 'success']);
 	}
 
+	// update attendance in an event  (present/not present, reason code)
   public function updateAttendance(Request $request, Response $response, $args) {
-    $organisation = $request->getAttribute('organisation');
     $event = $request->getAttribute('event');
     $json = $request->getParsedBody();
 
 		$attendance = $event->ownAttendanceList[$args['attendance_id']];
 
 		$attendance->presence = $json['presence'];
-		$attendance->reason_id = $json['reason'];
+		$attendance->reason_id = $json['reason'] == "0" ? null : $json['reason'];
 
 		R::store($attendance);
 

@@ -2,6 +2,7 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
+// class autoloading
 require '../vendor/autoload.php';
 
 // php hack for Slim Route matching
@@ -16,7 +17,7 @@ require './../database.php';
 
 // index route
 $app->get('/', function(Request $request, Response $response) {
-  return $response->write(file_get_contents('main.html'));;
+  return $response->write(file_get_contents('main.html'));
 });
 
 // library css/js/fonts
@@ -29,8 +30,6 @@ $app->group('/api', function() {
     $this->post('/register', '\Controllers\Auth:register');
   });
   $this->group('/organisation', function() {
-    $this->get('/mine', '\Controllers\Organisation:myOrganisations');
-
     $this->group('/{org_id}', function() {
 
       $this->group('/reasons', function() {

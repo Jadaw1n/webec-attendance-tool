@@ -1,7 +1,9 @@
+// returns a html row for each event attendant
 const attendanceToHtml = ({id: member_id, firstname, lastname}, {id: attendance_id, presence, reason_id}, reasons) => {
   const isPresent = presence == "1" ? "checked" : "";
   const reasonsEnabled = presence == "1" ? "disabled" : "";
 
+  // dropdown for reason selection
   const reasonDropDown = `
 <select class="form-control" ${reasonsEnabled}>
   <option value="0"></option>
@@ -32,6 +34,7 @@ const attendanceToHtml = ({id: member_id, firstname, lastname}, {id: attendance_
   `;
 };
 
+// send attendance infos to server
 function saveAttendance(eventid, $row) {
   const attendance_id = $row[0].dataset.id;
   const data = {
@@ -47,9 +50,9 @@ function saveAttendance(eventid, $row) {
 }
 
 window.app.page("event", () => {
-  // called on init
-  let eventid = 0;
+  let eventid = 0; // current event id
 
+  // on attendance change
   $("#attendanceList").on("change", "input", (event) => {
     $select = $(event.target).parents("tr").find("select");
     $select.prop('disabled', event.target.checked);
@@ -60,6 +63,7 @@ window.app.page("event", () => {
     saveAttendance(eventid, $(event.target).parents("tr"));
   });
 
+  // on reason change
   $("#attendanceList").on("change", "select", (event) => {
     saveAttendance(eventid, $(event.target).parents("tr"));
   });
@@ -69,13 +73,12 @@ window.app.page("event", () => {
 
     $("#attendanceList").html("Loading...");
 
+    // load all reasons and the event and display it
     Promise.all([
       api(`organisation/${User.getData().organisation.id}/reasons`),
       api(`organisation/${User.getData().organisation.id}/events/${eventid}`)
     ]).then(([reasons, {status, event, members}]) => {
       if (status != "success") return log(status), alert(status);
-
-      log(event);
 
       $("#eventName").text(event.subject + " " + event.start);
       $("#eventDescription").text(event.description);
@@ -83,25 +86,8 @@ window.app.page("event", () => {
       $("#attendanceList").html(Object.values(event.ownAttendance).map(att => {
         return attendanceToHtml(members[att.member_id], att, reasons);
       }));
-    });
 
-    setChartEventReasons();
+      chartAttendanceByReason(event.ownAttendance, reasons, 'chart-event-reasons');
+    });
   }
 });
-
-function setChartEventReasons() {
-    var jData = {};
-    jData.cols = [];
-    jData.cols[jData.cols.length] = {'id':'','label':'Topping','pattern':'','type':'string'};
-    jData.cols[jData.cols.length] = {'id':'','label':'Slices','pattern':'','type':'number'};
-    jData.rows = [];
-    jData.rows[jData.rows.length] = {'c':[{'v':'Anwesend','f':null},{'v':3,'f':null}]};
-
-    api(`organisation/${User.getData().organisation.id}/reasons`).then(reasons => {
-        const reasonsData = Object.values(reasons);
-        for (i = 0; i < reasonsData.length; ++i) {
-            jData.rows[jData.rows.length] = {'c':[{'v': reasonsData[i].text,'f':null},{'v':3,'f':null}]};
-        }
-        showPieChart('chart-event-reasons', null, jData, 800, 500);
-    });
-}

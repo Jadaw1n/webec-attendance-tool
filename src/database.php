@@ -2,8 +2,8 @@
 
 use \RedBeanPHP\R;
 
+// use the configured database settings
 R::setup($configuration['settings']['database']);
 
-if($configuration['settings']['database_freeze']) {
-  R::freeze(true);
-}
+R::freeze($configuration['settings']['database_freeze']);
+

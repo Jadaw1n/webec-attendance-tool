@@ -16,11 +16,17 @@
           <ul class="nav nav-pills pull-right" id="navbar"></ul>
         </nav>
         <h3 class="logo">WAT</h3>
-        <img id='gravatar' src=''>
+        <img id="gravatar">
       </div>
     </div>
 
     <div id="notifications"></div>
+
+    <!--
+      Routes for the Single Page Application Micro Framework https://github.com/c-smile/spapp
+      Every page has it's own entry and is loaded from the server.
+      Entries in #naviloggedIn are shown to logged in users, entries in #naviloggedOut are shown to visitors.
+    -->
 
     <div id="naviloggedIn">
       <section id="home" src="pages/home.html" data-name="Home" default></section>
@@ -36,7 +42,7 @@
       <section id="login" src="pages/login.html" data-name="Login"></section>
     </div>
 
-    <!-- sub pages not in the navi -->
+    <!-- Pages not displayed in the navigation -->
     <section id="event" src="pages/event.html"></section>
     <section id="calendar" src="pages/calendar.html"></section>
     <section id="member" src="pages/member.html"></section>
@@ -68,7 +74,6 @@
   <script src="https://apis.google.com/js/client.js" async></script>
   <!-- Gravatar -->
   <script type='text/javascript' src="http://www.myersdaily.org/joseph/javascript/md5.js"></script>
-  <script type='text/javascript' src='js/gravatar.js'></script>
   <!-- Google charts -->
   <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
   <script type='text/javascript' src='js/charts.js'></script>

@@ -15,6 +15,8 @@ const User = (() => {
       data = newData;
       localStorage.setItem("token", token);
       localStorage.setItem("data", JSON.stringify(data));
+
+      document.getElementById('gravatar').setAttribute('src', getGravatarUrl(data.email));
     },
     logout: () => {
       token = null;
@@ -70,12 +72,13 @@ function api(url, data = null, method = null) {
   }).catch(error => {
     const msg = error.responseJSON;
     if (msg.status === "not_logged_in") {
+      // redirect to login page if token expired
       User.logout();
       window.location.hash = "login";
       return;
     }
 
-    log("API Error", msg.responseText);
+    log("API Error", error);
     alert("API Error", JSON.stringify(error));
   });
 }
@@ -86,4 +89,10 @@ function getFormData(formid) {
     obj[item.name] = item.value;
     return obj;
   }, {});
+}
+
+// gravatar
+function getGravatarUrl(userEmail) {
+    var hash = md5(userEmail.trim().toLowerCase());
+    return 'http://www.gravatar.com/avatar/' + hash;
 }

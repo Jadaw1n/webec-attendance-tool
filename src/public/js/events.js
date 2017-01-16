@@ -57,61 +57,25 @@ window.app.page("events", () => {
     // called every time the page is accessed
     $("#allEvents").html("Events werden geladen...");
 
-    api(`organisation/${User.getData().organisation.id}/events`).then(events => {
-      const eventsByDate = Object.values(events).reduce((group, event) => {
-        const date = event.start.split(" ")[0];
+    Promise
+      .all([
+        api(`organisation/${User.getData().organisation.id}/events`),
+        api(`organisation/${User.getData().organisation.id}/reasons`)
+      ])
+      .then(([{events, statistics}, reasons]) => {
+        log(statistics);
+        // display events
+        const eventsByDate = Object.values(events).reduce((group, event) => {
+          const date = event.start.split(" ")[0];
+          if (group[date] === undefined) group[date] = [];
+          group[date].push(event);
+          return group;
+        }, {});
 
-        if (group[date] === undefined) group[date] = [];
+        $("#allEvents").html(Object.keys(eventsByDate).map(date => createDayPart(date, eventsByDate[date])));
 
-        group[date].push(event);
-
-        return group;
-      }, {});
-
-
-      $("#allEvents").html(Object.keys(eventsByDate).map(date => createDayPart(date, eventsByDate[date])));
-    });
-    
-    setChartEventsReasons();
-    }
+        // show chart
+        showStackedAreaChart('chart-events-reasons', null, statistics, 800, 500);
+      });
+  }
 });
-
-function setChartEventsReasons() {
-    var jData = {};
-    jData.cols = [];
-    jData.cols[jData.cols.length] = {'id':'','label':'Topping','pattern':'','type':'string'};
-    jData.cols[jData.cols.length] = {'id':'','label':'Anwesend','pattern':'','type':'number'};
- 
-    api(`organisation/${User.getData().organisation.id}/reasons`).then(reasons => {
-        const reasonsData = Object.values(reasons);
-        for (i = 0; i < reasonsData.length; ++i) {
-            jData.cols[jData.cols.length] = {'id':'','label': reasonsData[i].text ,'pattern':'','type':'number'};
-        }
-        
-        jData.rows = [];
-        
-        api(`organisation/${User.getData().organisation.id}/events`).then(events => {
-            const eventsJdata = Object.values(events);
-            var data = eventsJdata.sort(function(a, b){
-                return new Date(a.start)-new Date(b.start);
-            });
-
-            for (i = 0; i < data.length; ++i) {
-                var start = new Date(data[i].start);
-                var eventStr = data[i].subject + '(' + start.getDate() + '.' + (start.getMonth() + 1) + '.' + start.getFullYear().toString().substring(2,4) + ')';
-                
-                var row = {'c':[{"v":eventStr,"f":null},{"v":12,"f":null}]};
-                for (j = 0; j < reasonsData.length; ++j) {
-                    row.c[row.c.length] = {"v":1,"f":null};
-                }
-                jData.rows[jData.rows.length] = row;
-            }
-            showStackedAreaChart('chart-events-reasons', null, jData, 800, 500);
-        });
-    });
-    
-    /*api(`organisation/${User.getData().organisation.id}/members`).then(members => {
-        const membersData = Object.values(members);
-        console.info(membersData);
-    });*/
-}

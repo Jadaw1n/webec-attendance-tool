@@ -2,7 +2,9 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
+// returns files from the vendor folder
 return function(Request $request, Response $response, $args) {
+  // only those libs are allowed to be accessed
   $libs = [
     'bootstrap' => 'twbs/bootstrap/dist',
     'jquery' => 'components/jquery',
@@ -11,6 +13,7 @@ return function(Request $request, Response $response, $args) {
   $file = $args['file'];
   $ext = $args['ext'];
 
+  // validation
   if(!array_key_exists($args['lib'], $libs) || strpos($file, '..') !== false) {
     return $response->withStatus(404)->write('File not found.');
   }

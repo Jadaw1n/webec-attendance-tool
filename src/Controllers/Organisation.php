@@ -8,68 +8,73 @@ use \Interop\Container\ContainerInterface as ContainerInterface;
 use \RedBeanPHP\R;
 use \Firebase\JWT\JWT;
 
+// organisation endpoints
 class Organisation {
-  protected $ci;
-  public function __construct(ContainerInterface $ci) {
-    $this->ci = $ci;
-  }
+	protected $ci;
+	public function __construct(ContainerInterface $ci) {
+		$this->ci = $ci;
+	}
 
-  public function myOrganisations(Request $request, Response $response) {
-    $user = $request->getAttribute('user');
-
-    return $response->withJson(array_values($user->sharedOrganisationList));
-  }
-
-  public function getData(Request $request, Response $response, $args) {
-    $organisation = $request->getAttribute('organisation');
-
-    return $response->withJson($organisation);
-  }
-
+	// returns all events of the organisation
   public function getEvents(Request $request, Response $response, $args) {
-    $organisation = $request->getAttribute('organisation');
+		$organisation = $request->getAttribute('organisation');
 
-    return $response->withJson($organisation->ownEventList);
-  }
+		// gather events statistics
+    $pdo = R::getDatabaseAdapter()->getDatabase()->getPDO();
+		$query = $pdo->prepare("
+select a.event_id, e.subject, a.presence, a.reason_id, count(event_id) count
+from attendance a
+join event e on e.id = a.event_id
+where e.organisation_id = ?
+group by a.event_id, a.reason_id, a.presence
+");
+		$query->execute([$organisation->id]);
 
-  public function getReasons(Request $request, Response $response, $args) {
-    $organisation = $request->getAttribute('organisation');
+    // prepare header column
+		$header = ["Event", "Anwesend", "Unbekannt"];
 
-    return $response->withJson($organisation->ownReasonList);
-  }
+    // we need this position mapping array so we get proper arrays and not dictionaries
+    // at the end (PHP doesn't really make a distinction, but it's important for JS)
+    $reasonPositions = [null => 2];
 
-  public function getMembers(Request $request, Response $response, $args) {
-    $organisation = $request->getAttribute('organisation');
+		foreach($organisation->ownReasonList as $reason) {
+			$header[] = $reason->text;
+      $reasonPositions[$reason->id] = count($header) - 1;
+		}
 
-    return $response->withJson($organisation->ownMemberList);
-  }
+    // start collecting data
+		$data = [ $header ];
 
-  public function updateData(Request $request, Response $response, $args) {
-    $organisation = $request->getAttribute('organisation');
+    // transform the sql query result to something we can directly use in google data tables
+		while($row = $query->fetch(\PDO::FETCH_OBJ)) {
+      // create event entry if it doesn't exist
+			if(!array_key_exists($row->event_id, $data)) {
+        $data[$row->event_id] = array_fill(0, count($header), 0);
+        $data[$row->event_id][0] = $row->subject;
+			}
 
-    // contains array with org attributes, event list, member list, reason list
-    // convention:
-    // each event/member/reason-list is an object with it's attributes. if it's missing the id, it's a new object and to be created
-    $json = $request->getParsedBody();
+      // update count for the corresponding reason
+      if($row->presence == 1) {
+        $data[$row->event_id][1] = intval($row->count);
+      } else {
+        $data[$row->event_id][$reasonPositions[$row->reason_id]] = intval($row->count);
+      }
+		}
 
-    // update org attributes
+    return $response->withJson(['events' => $organisation->ownEventList, 'statistics' => array_values($data)]);
+	}
 
-    // update events add/remove
+	// returns all reasons of the organisation
+	public function getReasons(Request $request, Response $response, $args) {
+		$organisation = $request->getAttribute('organisation');
 
-    // update members add/disable/remove
+		return $response->withJson($organisation->ownReasonList);
+	}
 
-    // update reasons add/disable
+	// returns all members of the organisation
+	public function getMembers(Request $request, Response $response, $args) {
+		$organisation = $request->getAttribute('organisation');
 
-    return $response->withJson(['status' => 'success']);
-  }
-
-  public function updateAttendance(Request $request, Response $response, $args) {
-    $user = $request->getAttribute('user');
-    $organisation = $request->getAttribute('organisation');
-
-    $json = $request->getParsedBody();
-    // json contains an event id, and a list of all active members with the reason code
-
-    return $response->withJson(['status' => 'success']);
-  }
+		return $response->withJson($organisation->ownMemberList);
+	}
 }

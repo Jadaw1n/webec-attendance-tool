@@ -2,6 +2,7 @@
 use \Firebase\JWT\JWT;
 use \RedBeanPHP\R;
 
+// user has to be logged in for routes guarded by this middleware
 return function ($request, $response, $next) {
 	try {
 		$jwt = $request->getHeader('Authorization');
@@ -10,6 +11,7 @@ return function ($request, $response, $next) {
 
 		$user = R::load('user', $decoded->data->id);
 
+		// add the user as request attribute
 		$request = $request->withAttribute('user', $user);
 
 		return $next($request, $response);

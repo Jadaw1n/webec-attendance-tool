@@ -8,12 +8,14 @@ use \Interop\Container\ContainerInterface as ContainerInterface;
 use \RedBeanPHP\R;
 use \Firebase\JWT\JWT;
 
+// User authentication endpoints
 class Auth {
   protected $ci;
   public function __construct(ContainerInterface $ci) {
     $this->ci = $ci;
   }
 
+  // login a user
   public function login(Request $request, Response $response) {
     $json = $request->getParsedBody();
 
@@ -22,8 +24,9 @@ class Auth {
     if($user == null) {
       return $response->withJson(['status' => 'login_failed']);
     } else {
+      // create token
       $token = [
-          "nbf" => time(), // not before
+          "nbf" => time(), // not before now
           "exp" => time() + $this->ci->get('settings')['authentication']['validity'], // expiration
           "data" => [
               "id" => $user->id
@@ -45,6 +48,7 @@ class Auth {
     }
   }
 
+  // register a new user
   public function register(Request $request, Response $response) {
     $json = $request->getParsedBody();
 
@@ -52,6 +56,7 @@ class Auth {
     $password = $json['password'];
     $organisation = $json['organisation'];
 
+    // some validation checks
     if(!preg_match('/^.*@.*$/', $email)) {
         return $response->withJson(['status' => 'error', 'message' => 'E-Mail Adresse nicht im korrekten Format.']);
     }
@@ -74,12 +79,14 @@ class Auth {
         return $response->withJson(['status' => 'error', 'message' => 'Name der Organisation bereits vergeben.']);
     }
 
+    // create the user
     $user = R::dispense('user');
     $user->email = $email;
     $user->password = sha1($password);
 
     R::store($user);
 
+    // create the organisation
     $org = R::dispense('organisation');
     $org->name = $organisation;
 

@@ -7,18 +7,21 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use \Interop\Container\ContainerInterface as ContainerInterface;
 use \RedBeanPHP\R;
 
+// reasons endpoints
 class Reason {
 	protected $ci;
 	public function __construct(ContainerInterface $ci) {
 		$this->ci = $ci;
 	}
 
+	// create a new reason
 	public function create(Request $request, Response $response, $args) {
 		$organisation = $request->getAttribute('organisation');
 		$json = $request->getParsedBody();
 
 		$reason = R::dispense('reason');
 
+		// validation
 		if(strlen($json['reason']) == 0) {
 			return $response->withJson(['status' => 'error', 'message' => 'Der Grund darf nicht leer sein.']);
 		}
@@ -32,6 +35,7 @@ class Reason {
 		return $response->withJson(['status' => 'success', 'id' => $id]);
 	}
 
+	// delete a reason
 	public function delete(Request $request, Response $response, $args) {
     $organisation = $request->getAttribute('organisation');
 		$reasonId = $args['reason_id'];
