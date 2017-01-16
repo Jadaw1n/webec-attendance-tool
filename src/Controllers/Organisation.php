@@ -75,6 +75,49 @@ group by a.event_id, a.reason_id, a.presence
 	public function getMembers(Request $request, Response $response, $args) {
 		$organisation = $request->getAttribute('organisation');
 
-		return $response->withJson($organisation->ownMemberList);
+		// statistics
+		$pdo = R::getDatabaseAdapter()->getDatabase()->getPDO();
+		$query = $pdo->prepare("
+select a.member_id, m.firstname, m.lastname, a.presence, a.reason_id, count(a.member_id) count
+from attendance a
+join member m on m.id = a.member_id
+where m.organisation_id = ?
+group by a.member_id, a.reason_id, a.presence
+order by m.lastname, m.firstname
+");
+		$query->execute([$organisation->id]);
+
+    // prepare header column
+		$header = ["Member", "Anwesend", "Unbekannt"];
+
+    // we need this position mapping array so we get proper arrays and not dictionaries
+    // at the end (PHP doesn't really make a distinction, but it's important for JS)
+    $reasonPositions = [null => 2];
+
+		foreach($organisation->ownReasonList as $reason) {
+			$header[] = $reason->text;
+      $reasonPositions[$reason->id] = count($header) - 1;
+		}
+
+    // start collecting data
+		$data = [ $header ];
+
+    // transform the sql query result to something we can directly use in google data tables
+		while($row = $query->fetch(\PDO::FETCH_OBJ)) {
+      // create event entry if it doesn't exist
+			if(!array_key_exists($row->member_id, $data)) {
+        $data[$row->member_id] = array_fill(0, count($header), 0);
+        $data[$row->member_id][0] = $row->firstname . " " . $row->lastname;
+			}
+
+      // update count for the corresponding reason
+      if($row->presence == 1) {
+        $data[$row->member_id][1] = intval($row->count);
+      } else {
+        $data[$row->member_id][$reasonPositions[$row->reason_id]] = intval($row->count);
+      }
+		}
+
+		return $response->withJson(['members' => $organisation->ownMemberList, 'statistics' => array_values($data)]);
 	}
 }

@@ -63,7 +63,6 @@ window.app.page("events", () => {
         api(`organisation/${User.getData().organisation.id}/reasons`)
       ])
       .then(([{events, statistics}, reasons]) => {
-        log(statistics);
         // display events
         const eventsByDate = Object.values(events).reduce((group, event) => {
           const date = event.start.split(" ")[0];
