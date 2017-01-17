@@ -20,7 +20,6 @@ const updateMemberPage = () => {
       $("#memberList").html(Object.values(members).filter(r => r.shown == 1).map(memberEntry));
 
       // update statistics
-      log(statistics);
       showColumnChart('chart-members-reasons', null, statistics);
     });
 };
