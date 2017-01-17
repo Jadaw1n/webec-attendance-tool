@@ -49,6 +49,7 @@ $(window).on("hashchange", updateNavigation);
 updateNavigation();
 
 // update gravatar
+const getGravatarUrl = (userEmail) => 'https://www.gravatar.com/avatar/' + md5(userEmail.trim().toLowerCase());
 function updateGravatar() {
   if (User.isLoggedIn()) {
     $("#gravatar")[0].setAttribute('src', getGravatarUrl(User.getData().email));
@@ -58,6 +59,7 @@ function updateGravatar() {
     $("#useremail").text("");
   }
 }
+
 updateGravatar();
 
 // on screen notifications
@@ -103,10 +105,4 @@ function getFormData(formid) {
     obj[item.name] = item.value;
     return obj;
   }, {});
-}
-
-// gravatar
-function getGravatarUrl(userEmail) {
-  var hash = md5(userEmail.trim().toLowerCase());
-  return 'http://www.gravatar.com/avatar/' + hash;
 }
