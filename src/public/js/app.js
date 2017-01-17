@@ -69,8 +69,13 @@ const Notifications = (() => {
 
   return {
     push: (msg, type = "info") => {
-      // TODO auto hide after some time
-      $display.append(`<div class="alert alert-${type}" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>${msg}</div>`);
+      // create notification div
+      $msg = $(`<div class="alert alert-${type}" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>${msg}</div>`);
+      // append to display
+      $display.append($msg);
+
+      // hide after some time
+      setTimeout(() => $msg.fadeOut(), 5000);
     }
   };
 })();
