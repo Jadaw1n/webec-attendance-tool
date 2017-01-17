@@ -3,7 +3,7 @@ window.app.get = (src, $page, pageName) => $.get(src);
 
 // tool functions
 const qsa = selector => [].slice.call(document.querySelectorAll(selector));
-const log = (...arguments) => console.log(...arguments);
+const log = (...args) => console.log(...args);
 
 // user data
 const User = (() => {

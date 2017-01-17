@@ -14,8 +14,7 @@ window.app.page("calendar", () => {
 
   return (eventid) => {
     // called every time the page is accessed
-
-  }
+  };
 });
 
 function handleAuthResult(authResult) {
@@ -32,6 +31,7 @@ $("#authorize-button").on("click", function (event) {
   event.preventDefault();
   gapi.auth.authorize({ client_id, scope: scopes.join(' '), immediate: false }, handleAuthResult);
 });
+
 
 function listCalendars() {
   var request = gapi.client.calendar.calendarList.list();
@@ -114,7 +114,7 @@ const eventToHtml = (event) => {
 `;
 };
 
-const flattenEvents = (evts, calendar) => evts.concat(calendar.items.map(item => { item.calendar_name = calendar.summary; return item }));
+const flattenEvents = (evts, calendar) => evts.concat(calendar.items.map(item => { item.calendar_name = calendar.summary; return item; }));
 
 const orderEvents = (a, b) => {
   const a_start = a.start.dateTime || a.start.date;
@@ -130,7 +130,7 @@ const orderEvents = (a, b) => {
 function listCalendarEvents() {
   $("#calendarEventList").html("Loading...");
   $("#calendar-events").toggle();
-
+  log("list");
   Promise
     .all(calendars.filter(c => c.checkbox.checked).map(listEvents))
     .then((calendarsWithEvents) => {
