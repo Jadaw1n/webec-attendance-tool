@@ -16,12 +16,19 @@ hr {
   float: left;
 }
 
+img#gravatar {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  float: left;
+}
+
 span.gray {
   color: gray;
 }
 
 nav {
-  padding: 10px 10px 0 10px;
+  padding: 0px 10px;
 }
 
 .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover, .btn-primary, .btn-primary:hover, .btn-primary:focus, .btn:active, .btn-primary:active {
@@ -35,6 +42,10 @@ nav {
 
 a:focus, a:hover, a {
   color: black;
+}
+
+ul.nav {
+  padding: 10px 0;
 }
 
 .marketing {
