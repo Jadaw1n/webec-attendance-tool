@@ -189,11 +189,11 @@ input:checked + .slider:before {
 }
 
 .table > tbody > tr > td.no-padding {
-  padding: 4px; !important;
+  padding: 4px !important;
 }
 
 .table > tbody > tr > td > label {
-  margin-bottom: -4px; !important;
+  margin-bottom: -4px !important;
 }
 
 .left {
