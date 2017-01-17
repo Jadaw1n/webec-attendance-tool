@@ -17,10 +17,12 @@ hr {
 }
 
 img#gravatar {
-  width: 50px;
-  height: 50px;
-  margin: 5px;
-  float: left;
+  width: 40px;
+  margin: -5px;
+}
+
+#useremail {
+  line-height: 30px;
 }
 
 span.gray {

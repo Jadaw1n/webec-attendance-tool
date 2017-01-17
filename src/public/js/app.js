@@ -15,14 +15,14 @@ const User = (() => {
       data = newData;
       localStorage.setItem("token", token);
       localStorage.setItem("data", JSON.stringify(data));
-
-      document.getElementById('gravatar').setAttribute('src', getGravatarUrl(data.email));
+      updateGravatar();
     },
     logout: () => {
       token = null;
       data = null;
       localStorage.removeItem("token");
       localStorage.removeItem("data");
+      updateGravatar();
     },
     isLoggedIn: () => token !== null,
     getData: () => data,
@@ -47,6 +47,18 @@ const updateNavigation = () => {
 
 $(window).on("hashchange", updateNavigation);
 updateNavigation();
+
+// update gravatar
+function updateGravatar() {
+  if (User.isLoggedIn()) {
+    $("#gravatar")[0].setAttribute('src', getGravatarUrl(User.getData().email));
+    $("#useremail").text(User.getData().email);
+  } else {
+    $("#gravatar")[0].setAttribute('src', '');
+    $("#useremail").text("");
+  }
+}
+updateGravatar();
 
 // on screen notifications
 const Notifications = (() => {
@@ -95,6 +107,6 @@ function getFormData(formid) {
 
 // gravatar
 function getGravatarUrl(userEmail) {
-    var hash = md5(userEmail.trim().toLowerCase());
-    return 'http://www.gravatar.com/avatar/' + hash;
+  var hash = md5(userEmail.trim().toLowerCase());
+  return 'http://www.gravatar.com/avatar/' + hash;
 }
