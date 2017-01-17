@@ -38,6 +38,8 @@ const updateNavigation = () => {
   const naviLoggedIn = User.isLoggedIn() ? "#naviloggedIn" : "#naviloggedOut";
   const links = qsa(`${naviLoggedIn} section`).map(s => `<li role="presentation" ${hash == s.id ? "class=\"active\"" : ""}><a href="#${s.id}">${s.dataset.name}</a></li>`);
   $("#navbar").html(links);
+  $("#naviloggedIn, #naviloggedOut").hide();
+  $(naviLoggedIn).show();
 
   // hide unused sections
   qsa("body section").forEach(s => s.hidden = hash != s.id);
