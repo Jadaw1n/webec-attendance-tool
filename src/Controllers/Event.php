@@ -48,7 +48,17 @@ class Event {
 		$event = R::dispense('event');
 
 		$event->start = \DateTime::createFromFormat('d.m.Y G:i', $json['date'] . " " . $json['timeStart']);
-		$event->end = \DateTime::createFromFormat('d.m.Y G:i', $json['date'] . " " . $json['timeEnd']);
+		if($event->start == false) {
+			$event->start = \DateTime::createFromFormat('d.m.Y G:i', $json['date'] . " 00:00");
+
+			if($event->start == false) {
+				return $response->withJson(['status' => 'error', 'message' => 'Datumsformat wurde nicht erkannt. Bitte im Format TT.MM.JJJJ eingeben.']);
+			}
+
+			$event->end = $event->start;
+		} else {
+			$event->end = \DateTime::createFromFormat('d.m.Y G:i', $json['date'] . " " . $json['timeEnd']);
+		}
 
 		// validation checks
 		if(strlen($json['subject']) == 0) {
@@ -78,12 +88,12 @@ class Event {
 			if(array_key_exists('dateTime', $data['start'])) {
 				$event->start = new \DateTime($data['start']['dateTime']);
 			} else {
-        $event->start = \DateTime::createFromFormat('Y-m-d', $data['start']['date']);
+        $event->start = \DateTime::createFromFormat('Y-m-d G:i', $data['start']['date'] . " 00:00");
 			}
 			if(array_key_exists('dateTime', $data['end'])) {
 				$event->end = new \DateTime($data['end']['dateTime']);
 			} else {
-				$event->end = \DateTime::createFromFormat('Y-m-d', $data['end']['date']);
+				$event->end = \DateTime::createFromFormat('Y-m-d G:i', $data['end']['date'] . " 00:00");
 			}
 
 			$event->subject = $data['summary'];

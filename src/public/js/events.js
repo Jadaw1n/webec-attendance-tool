@@ -1,5 +1,5 @@
 const createEventCard = ({id, start, subject, description}) => {
-  const startFmt = start.split(" ")[1].slice(0, -3);
+  const startFmt = (start.split(" ")[1] || "").slice(0, -3);
   const descriptionFmt = description == null ? "" : description.replace(/(?:\r\n|\r|\n)/g, '<br />');
   return `
 <div class="col-xs-12 col-md-6 col-lg-4">
